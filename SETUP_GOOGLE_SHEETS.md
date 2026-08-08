@@ -17,7 +17,7 @@ This is the same pattern Tiller's own API access uses.
 ## 2. Create the sheet and share it with the service account
 
 1. Create a new Google Sheet, named to match `SHEET_NAME` in `scripts/config.py` (defaults to
-   `"Tiller Demo Foundation"` — change one or the other so they match).
+   `"Tiller Mockup"` — change one or the other so they match).
 2. Open the downloaded JSON key file and copy the `client_email` value (looks like
    `something@your-project.iam.gserviceaccount.com`).
 3. In the Google Sheet, click **Share** and add that email address with **Editor** access.
@@ -25,6 +25,10 @@ This is the same pattern Tiller's own API access uses.
 A service account has no Google Drive storage of its own — it can't create a sheet for you, only
 read/write one you've already created and shared with it. That's why this is a manual step rather
 than something a script can do automatically.
+
+This Editor grant is separate from — and not the same as — any public link you might share the
+sheet under. The service account needs Editor access so *your own scripts* can write to it; anyone
+you share a public view link with should get **Viewer**, not Editor (see below).
 
 ## 3. Populate it
 
@@ -42,3 +46,11 @@ Once you're comfortable with how it works, replace the synthetic rows on the **T
 **Downsize Model**, and **Portfolio Model** to match your own numbers. Copy `scripts/config.py` to
 `scripts/config_local.py` (gitignored) and set `HOUSEHOLD_NAME`, `SHEET_NAME`, and your own
 guaranteed-income category names there — the report scripts themselves never need to change.
+
+## About the published demo sheet
+
+If you're looking at the maintainer's own published copy of the demo sheet (linked from the
+README) rather than setting up your own: it's shared **view-only**. You can't edit it, and it
+isn't kept in sync with anything — it's a one-time snapshot, not a live feed, so there's no
+"refresh" to wait for or break. To use it, **File → Make a copy** — that works on a view-only
+sheet and gives you your own private, editable copy to build from, following step 4 above.

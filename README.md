@@ -6,13 +6,18 @@ corporate-budget one: **if guaranteed income or the portfolio took a hit, what c
 what order?**
 
 **[Live demo →](https://your-github-username.github.io/tiller-demo/)** &nbsp;·&nbsp;
-**[Sample PDF →](docs/advisor_summary.pdf)**
+**[Sample PDF →](docs/advisor_summary.pdf)** &nbsp;·&nbsp;
+**[Sample sheet →](https://docs.google.com/spreadsheets/your-sheet-id)** (view-only — see below)
 
-*(Replace the two links above with your actual GitHub Pages URL once the repo is public — see
-the note at the bottom of this file.)*
+*(Replace the three links above with your actual GitHub Pages URL and sheet URL once those are
+live — see the note at the bottom of this file.)*
 
-All figures on the live demo and in the sample PDF are fabricated data for a made-up household
-("Alex & Jordan") — see [`scripts/generate_demo_data.py`](scripts/generate_demo_data.py).
+All figures on the live demo, in the sample PDF, and on the sample sheet are fabricated data for
+a made-up household ("Alex & Jordan") — see
+[`scripts/generate_demo_data.py`](scripts/generate_demo_data.py). The sample sheet is shared
+**view-only** and isn't kept in sync with anything — it's a one-time snapshot, not a live feed.
+Use **File → Make a copy** to get your own editable copy to build from (see
+[`SETUP_GOOGLE_SHEETS.md`](SETUP_GOOGLE_SHEETS.md)).
 
 ## What's here that you won't find in a typical Tiller dashboard
 
