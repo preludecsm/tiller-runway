@@ -1,0 +1,17 @@
+# ─── SECRETS — never commit ───────────────────────────────────────────
+*.json
+
+# ─── Local overrides ───────────────────────────────────────────────────
+config_local.py
+
+# ─── Generated reports (docs/ holds the committed demo copy on purpose) ─
+reports/
+logs/
+
+# ─── Python ─────────────────────────────────────────────────────────────
+.venv/
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store

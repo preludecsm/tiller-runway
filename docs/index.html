@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Household Financial Summary — Alex &amp; Jordan</title>
+<style>
+:root{--paper:#e9ece8;--card:#fff;--edge:#d5dbd4;--ink:#1a2420;--muted:#5b6a62;--faint:#8a988f;
+ --gold:#8f6f34;--green:#2f6d54;--clay:#a9503b;--slate:#4a6572;--grid:#e4e8e3;--hero:#16211d;
+ --shadow:0 1px 2px rgba(20,33,28,.06),0 12px 30px rgba(20,33,28,.07);}
+@media (prefers-color-scheme:dark){:root{--paper:#0e1512;--card:#141d18;--edge:#243029;--ink:#e7ede8;
+ --muted:#9fb0a6;--faint:#6d7f75;--gold:#cba85e;--green:#5fa588;--clay:#d0745c;--slate:#8aa6b3;
+ --grid:#202b25;--hero:#0b110e;--shadow:0 1px 2px rgba(0,0,0,.4),0 14px 34px rgba(0,0,0,.36);}}
+:root[data-theme="light"]{--paper:#e9ece8;--card:#fff;--edge:#d5dbd4;--ink:#1a2420;--muted:#5b6a62;
+ --faint:#8a988f;--gold:#8f6f34;--green:#2f6d54;--clay:#a9503b;--slate:#4a6572;--grid:#e4e8e3;--hero:#16211d;}
+:root[data-theme="dark"]{--paper:#0e1512;--card:#141d18;--edge:#243029;--ink:#e7ede8;--muted:#9fb0a6;
+ --faint:#6d7f75;--gold:#cba85e;--green:#5fa588;--clay:#d0745c;--slate:#8aa6b3;--grid:#202b25;--hero:#0b110e;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);line-height:1.5;
+ font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:40px 24px 64px}
+.serif{font-family:"Iowan Old Style",Georgia,"Times New Roman",serif}
+.num{font-variant-numeric:tabular-nums}
+.eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:600}
+h1{font-size:1.45rem;margin:.15em 0 0;font-weight:600;letter-spacing:-.01em}
+header .meta{color:var(--muted);font-size:.85rem;margin-top:6px}
+.rule{height:1px;background:var(--edge);margin:26px 0}
+.topnav{display:flex;gap:8px;margin:16px 0 0;flex-wrap:wrap}
+.topnav a{font-size:.78rem;text-decoration:none;color:var(--muted);border:1px solid var(--edge);
+ border-radius:999px;padding:5px 13px;background:var(--card);transition:.15s}
+.topnav a:hover,.topnav a:focus-visible{color:var(--ink);border-color:var(--gold)}
+.topnav a.here{background:var(--hero);color:#eef3ef;border-color:var(--hero)}
+.hero{background:var(--hero);border-radius:18px;padding:32px 34px 8px;box-shadow:var(--shadow);overflow:hidden}
+.hero .verdict{font-size:1.35rem;line-height:1.35;font-weight:500;max-width:34ch;color:#f2f6f2}
+.hero .nwrow{display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 28px;margin:18px 0 6px}
+.hero .big{font-size:clamp(2.4rem,6.5vw,3.7rem);line-height:.98;font-weight:600;letter-spacing:-.02em;color:#fff}
+.hero .chg{color:#9db3a8;font-size:.92rem;padding-bottom:.5rem}
+.hero figcaption{color:#8ea79b;font-size:.75rem;margin:2px 2px 14px}
+.hero figure{margin:0}
+.trend{background:var(--card);border:1px solid var(--edge);border-radius:14px;padding:22px 24px;
+ box-shadow:var(--shadow);margin-top:20px}
+.trend h2{font-size:1.02rem;font-weight:600;margin:0 0 3px}
+.trend .period{color:var(--faint);font-size:.8rem;margin:5px 0 0;max-width:66ch;line-height:1.45}
+.trend .period b{color:var(--muted)}
+.trend .lead{color:var(--ink);font-size:.95rem;margin:12px 0 4px;max-width:64ch;line-height:1.5}
+.trend .lead b{color:var(--green)}
+#trendchart{margin-top:18px}
+.chartlegend{display:flex;gap:18px;font-size:.76rem;color:var(--muted);margin-top:6px}
+.chartlegend span{display:inline-flex;align-items:center;gap:6px}
+.chartlegend i{width:9px;height:9px;border-radius:2px;display:inline-block}
+.ttable{width:100%;border-collapse:collapse;margin-top:16px;font-variant-numeric:tabular-nums}
+.ttable th{font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);
+ font-weight:600;text-align:right;padding:0 0 8px 12px}
+.ttable th:first-child{text-align:left;padding-left:0}
+.ttable td{padding:11px 0 11px 12px;border-top:1px solid var(--edge);text-align:right;font-size:1rem}
+.ttable td:first-child{text-align:left;padding-left:0;font-size:.9rem;color:var(--muted)}
+.ttable td.now{font-weight:600;font-size:1.08rem}
+.ttable .verdict{font-size:.78rem;color:var(--muted);text-align:left;padding-left:14px;
+ line-height:1.35;max-width:19ch}
+.ttable .good{color:var(--green);font-weight:600}
+.ttable .flat{color:var(--gold);font-weight:600}
+.layers{display:flex;flex-direction:column;gap:14px;margin-top:20px}
+.layer{background:var(--card);border:1px solid var(--edge);border-radius:14px;padding:20px 22px;
+ box-shadow:var(--shadow);border-left:3px solid var(--accent,var(--edge))}
+.layer .lhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.layer .ltitle{font-size:1.02rem;font-weight:600}
+.layer .lper{font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);
+ font-weight:600;margin-top:2px}
+.layers-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+ flex-wrap:wrap;margin:22px 0 -6px}
+.layers-head h2{font-size:1.02rem;font-weight:600;margin:0}
+.layers-head .sub{color:var(--muted);font-size:.82rem}
+.layer .lnum{font-size:1.5rem;font-weight:600;letter-spacing:-.01em}
+.layer .lnote{color:var(--muted);font-size:.85rem;margin-top:6px;max-width:66ch}
+.layer .lsub{font-size:.82rem;margin-top:9px;max-width:70ch;color:var(--muted);background:var(--paper);
+ border:1px solid var(--edge);border-left:2px solid var(--green);border-radius:8px;padding:9px 13px}
+.layer .lsub b{color:var(--ink);font-weight:600}
+.lrows{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+.lrow{display:grid;grid-template-columns:1fr auto;gap:3px 12px;align-items:center}
+.lrow .rl{font-size:.87rem} .lrow .rv{font-size:.87rem;color:var(--muted);text-align:right}
+.lrow .track{grid-column:1/-1;height:8px;border-radius:4px;background:var(--grid);overflow:hidden}
+.lrow .fill{height:100%;border-radius:4px;transition:width .9s cubic-bezier(.2,.7,.2,1)}
+.neg{color:var(--clay)}
+.gapline{margin-top:14px;padding-top:13px;border-top:1px solid var(--edge);display:flex;
+ justify-content:space-between;align-items:baseline;gap:10px;font-weight:600}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+.mini{background:var(--paper);border:1px solid var(--edge);border-radius:12px;padding:16px 18px}
+.mini h3{font-size:.82rem;font-weight:600;margin:0 0 10px;color:var(--muted)}
+.mini .row{display:flex;justify-content:space-between;gap:10px;font-size:.86rem;padding:3px 0}
+.mini .row .v{color:var(--muted)}
+.mini .tot{border-top:1px solid var(--edge);margin-top:7px;padding-top:8px;font-weight:600}
+.mini .tot .v{color:var(--ink)}
+.note{background:var(--card);border:1px solid var(--edge);border-left:3px solid var(--slate);
+ border-radius:12px;padding:18px 22px;margin-top:14px;box-shadow:var(--shadow)}
+.note h2{font-size:.98rem;margin:0 0 8px}
+.note p{margin:0 0 9px;font-size:.9rem} .note p:last-child{margin-bottom:0}
+.note .q{color:var(--muted);font-size:.84rem}
+footer{color:var(--faint);font-size:.76rem;margin-top:28px;display:flex;justify-content:space-between;
+ flex-wrap:wrap;gap:8px}
+.tag{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--edge);border-radius:999px;
+ padding:3px 10px;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#tt{position:fixed;pointer-events:none;background:var(--hero);color:#eef3ef;border-radius:8px;padding:7px 10px;
+ font-size:.8rem;opacity:0;transition:opacity .12s;z-index:9;white-space:nowrap}
+#tt .t2{color:#9db3a8;font-size:.74rem}
+svg{display:block;width:100%;height:auto}
+@media (max-width:780px){.grid2{grid-template-columns:1fr}}
+@media (max-width:640px){.ttable .verdict{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
+      <div>
+        <div class="eyebrow">Household Financial Summary</div>
+        <h1 class="serif">Alex &amp; Jordan</h1>
+        <div class="meta">12 months to July 2026</div>
+      </div>
+      <span class="tag">● Private</span>
+    </div>
+    <nav class="topnav">
+      <a href="dashboard.html" class="here">Financial Summary</a>
+      <a href="spending.html">Spending by Category</a>
+      <a href="tiers.html">Spending by Tier</a>
+      <a href="downsize.html">Downsize Model</a>
+      <a href="sustainability.html">Retirement Sustainability</a>
+    </nav>
+  </header>
+  <div class="rule"></div>
+
+  <section class="hero">
+    <div class="verdict serif">Our net worth rose over the past year.</div>
+    <div class="nwrow">
+      <div class="big serif num">$1.97M</div>
+      <div class="chg num">financial net worth · +8.8% vs. a year ago</div>
+    </div>
+    <figure><div id="nwchart"></div>
+      <figcaption>Month-end net worth · Jul 2025 – Jul 2026 · excludes home equity</figcaption>
+    </figure>
+  </section>
+
+  <section class="trend">
+    <h2 class="serif">Overview — the direction of travel over three years</h2>
+    <p class="period">Each column is a complete 12 months, and they roll forward as time passes —
+      the current one ends <b>31 July 2026</b>. They are not calendar years, so that
+      all three are full periods.</p>
+    <p class="lead">Our spending has risen, our guaranteed income has gone from $79k to $98k, and our standing monthly draw has held at $9,000. Together that has widened the shortfall by <b>$16,373 a year</b>.</p>
+    <div id="trendchart"></div>
+    <div class="chartlegend">
+      <span><i style="background:var(--green)"></i>Guaranteed income</span>
+      <span><i style="background:var(--slate)"></i>Portfolio draw</span>
+      <span><i style="background:var(--clay)"></i>Lifestyle spending</span>
+    </div>
+    <table class="ttable">
+      <thead><tr><th></th><th>Aug ’23–Jul ’24</th><th>Aug ’24–Jul ’25</th><th>Aug ’25–Jul ’26</th><th class="verdict"></th></tr></thead>
+      <tbody>
+        <tr><td>What our life costs</td><td>$115k</td><td>$135k</td><td class="now">$150k</td>
+            <td class="verdict"><span class="flat">Up 31%</span> — mostly home improvements</td></tr>
+        <tr><td>Income we can count on</td><td>$79k</td><td>$96k</td><td class="now">$98k</td>
+            <td class="verdict"><span class="good">Up 24%</span> — Jordan Social Security started</td></tr>
+        <tr><td>Monthly draw from savings</td><td>$9k</td><td>$9k</td><td class="now">$9k</td>
+            <td class="verdict"><span class="flat">Flat</span></td></tr>
+        <tr><td>Shortfall the portfolio covers</td><td>$36k</td><td>$38k</td><td class="now">$52k</td>
+            <td class="verdict"><span class="flat">Up 46%</span> — $16,373 better</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="layers-head">
+    <h2 class="serif">The last 12 months in detail</h2>
+    <div class="sub">August 2025 – July 2026 · the three sections
+      below all cover this single 12-month period, not the three-year view above</div>
+  </div>
+
+  <div class="layers">
+    <section class="layer" style="--accent:var(--green)">
+      <div class="lhead"><div>
+          <div class="ltitle serif">1 · Household — what our life costs</div>
+          <div class="lper">12 months to Jul 2026</div></div>
+        <div class="lnum num">$150,274</div></div>
+      <div class="lnote">Our guaranteed income covers about 65% of what we spend.
+        The rest is funded by our routine $9,000/month portfolio draw. Taxes are
+        excluded here — they belong to layer 2.</div>
+      <div class="lsub">Includes ~<b>$9,627/yr</b> of mortgage principal, which builds home equity rather than being consumed.</div>
+      <div class="grid2">
+        <div class="mini"><h3>Our guaranteed income</h3><div id="incrows"></div></div>
+        <div class="mini"><h3>What we spend</h3><div class="lrows" id="exprows"></div></div>
+      </div>
+      <div class="lsub">Shown above is gross. An estimated <b>~$18,356/yr</b> of that is owed in tax on Social Security and pension income specifically (not withheld or split out in the feed) — roughly <b>~$79,992/yr</b> is actually available. Rate (13.5% federal / 9.3% CA) is an illustrative example marginal bracket, not a fixed feature of SS/pension — it moves with total income (especially realized capital gains) and should be re-derived from each new return, not trusted indefinitely. Not a CPA figure — see config.py.</div>
+      <div class="gapline"><span>Gap funded by our portfolio</span>
+        <span class="neg num">−$51,926 · −$4,327/mo</span></div>
+    </section>
+
+    <section class="layer" style="--accent:var(--gold)">
+      <div class="lhead"><div>
+          <div class="ltitle serif">2 · Taxes — a cost of income and portfolio returns</div>
+          <div class="lper">calendar year 2025</div></div>
+        <div class="lnum num">$33,617</div></div>
+      <div class="lnote">Not part of what we spend on ourselves. The bill is driven by interest, dividends and realised
+        gains inside our portfolio — it would exist even if we spent nothing. We pay it with dedicated withdrawals, which is why it inflates both sides of a naive cash-flow
+        statement. Shown by calendar year, not the rolling window used elsewhere on this page — taxes are actually owed on a
+        calendar-year basis, so slotting them into a fiscal window was misleading.</div>
+      <div class="grid2">
+        <div class="mini"><h3>The tax we paid in for 2025</h3>
+          <div class="row"><span>Federal (IRS)</span><span class="v num">$25,321</span></div>
+          <div class="row"><span>California (FTB)</span><span class="v num">$8,296</span></div>
+          <div class="row tot"><span>Total</span><span class="v num">$33,617</span></div></div>
+        <div class="mini"><h3>Why it swings</h3>
+          <div class="row"><span>2023</span><span class="v num">$12,727</span></div><div class="row"><span>2024</span><span class="v num">$32,361</span></div><div class="row tot"><span>2025</span><span class="v num">$33,617</span></div>
+          <div class="row tot"><span>Three-year average</span>
+            <span class="v num">$26,235</span></div></div>
+      </div>
+      <div class="lsub">Grouped by payment date, except <b>6</b> payment(s) tagged <code>ty&lt;year&gt;</code> on the Tags column to reassign them to the liability year they were actually for.</div>
+    </section>
+
+    <section class="layer" style="--accent:var(--slate)">
+      <div class="lhead"><div>
+          <div class="ltitle serif">3 · Portfolio — the engine</div>
+          <div class="lper">12 months to Jul 2026</div></div>
+        <div class="lnum num">$125,075 drawn</div></div>
+      <div class="lnote">Our draw splits by purpose. Investment returns over the period replaced what we
+        withdrew, which is why our net worth is roughly unchanged.</div>
+      <div class="lrows" id="drawrows"></div>
+      <div class="gapline"><span>Net worth, start → end</span>
+        <span class="num">$1.81M → $1.97M</span></div>
+    </section>
+  </div>
+
+  <section class="note">
+    <h2 class="serif">How to read this</h2>
+    <p>Our portfolio draw is <b>not income</b> — it is our own money moving between accounts. Counting it
+      as income double-counts, because the matching fall in our portfolio balance is invisible at the
+      transaction level.</p>
+    <p>Our scorecard is <b>net worth</b>, which nets our spending, our draws, and the investment returns
+      that never appear as transactions.</p>
+    <p class="q">These figures exclude our home equity — our house is not tracked as an asset, only its mortgage
+      as a liability. Whether this pace is sustainable over a 20–30 year retirement is a question for our advisor;
+      this page shows the picture, not a verdict.</p>
+  </section>
+
+  <footer><span>Generated from the Tiller sheet · 07 August 2026, 17:50</span>
+    <span>Private summary — not financial advice</span></footer>
+</div>
+<div id="tt"><div class="t1"></div><div class="t2"></div></div>
+<script>
+const fmt=n=>"$"+Math.round(n).toLocaleString();
+const tt=document.getElementById('tt');
+function showTip(x,y,a,b){tt.querySelector('.t1').textContent=a;tt.querySelector('.t2').textContent=b;
+ tt.style.opacity=1;const r=tt.getBoundingClientRect();
+ tt.style.left=Math.min(Math.max(x-r.width/2,8),innerWidth-r.width-8)+'px';tt.style.top=(y-r.height-14)+'px';}
+function hideTip(){tt.style.opacity=0;}
+function bindTips(sel){document.querySelectorAll(sel).forEach(b=>{
+ b.addEventListener('pointermove',e=>showTip(e.clientX,b.getBoundingClientRect().top,b.dataset.b,b.dataset.a));
+ b.addEventListener('pointerleave',hideTip);
+ b.addEventListener('focus',()=>{const r=b.getBoundingClientRect();showTip(r.left+r.width/2,r.top,b.dataset.b,b.dataset.a);});
+ b.addEventListener('blur',hideTip);});}
+const nw=[["Jul ’25",1813277],["Aug ’25",1821999],["Sep ’25",1865301],["Oct ’25",1834552],["Nov ’25",1837450],["Dec ’25",1839765],["Jan ’26",1884160],["Feb ’26",1925615],["Mar ’26",1915224],["Apr ’26",1968755],["May ’26",1954572],["Jun ’26",1958391],["Jul ’26",1973638]];
+(function(){
+ const W=980,H=210,P={l:8,r:8,t:18,b:24},yMin=1757151,yMax=2029764;
+ const cs=getComputedStyle(document.documentElement);
+ const green=cs.getPropertyValue('--green').trim(),gold=cs.getPropertyValue('--gold').trim();
+ const X=i=>P.l+(W-P.l-P.r)*i/(nw.length-1), Y=v=>P.t+(H-P.t-P.b)*(1-(v-yMin)/(yMax-yMin));
+ let g='';const step=(yMax-yMin)/4;
+ for(let i=0;i<=4;i++){const v=yMin+step*i,y=Y(v);
+  g+=`<line x1="${P.l}" x2="${W-P.r}" y1="${y}" y2="${y}" stroke="#2a3730" stroke-width="1"/>`+
+     `<text x="${P.l}" y="${y-4}" fill="#8ea79b" font-size="11">$${(v/1e6).toFixed(2)}M</text>`;}
+ const yb=Y(nw[0][1]);
+ g+=`<line x1="${P.l}" x2="${W-P.r}" y1="${yb}" y2="${yb}" stroke="${gold}" stroke-width="1" stroke-dasharray="3 4" opacity=".55"/>`;
+ const pts=nw.map((d,i)=>[X(i),Y(d[1])]);
+ const line=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+ const area=line+` L${W-P.r} ${H-P.b} L${P.l} ${H-P.b} Z`;const last=pts[pts.length-1];
+ document.getElementById('nwchart').innerHTML=
+  `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Month-end net worth">
+   <defs><linearGradient id="ga" x1="0" x2="0" y1="0" y2="1">
+   <stop offset="0" stop-color="${green}" stop-opacity=".30"/><stop offset="1" stop-color="${green}" stop-opacity="0"/>
+   </linearGradient></defs>${g}<path d="${area}" fill="url(#ga)"/>
+   <path d="${line}" fill="none" stroke="${green}" stroke-width="2.5" stroke-linejoin="round"/>
+   <circle cx="${last[0]}" cy="${last[1]}" r="4.5" fill="${gold}" stroke="#16211d" stroke-width="2"/>
+   <g id="hit"></g></svg>`;
+ const svg=document.querySelector('#nwchart svg'),hit=svg.querySelector('#hit');
+ const cross=document.createElementNS('http://www.w3.org/2000/svg','line');
+ cross.setAttribute('stroke',gold);cross.setAttribute('stroke-width','1');cross.setAttribute('opacity','0');
+ cross.setAttribute('y1',P.t);cross.setAttribute('y2',H-P.b);hit.appendChild(cross);
+ const mk=document.createElementNS('http://www.w3.org/2000/svg','circle');
+ mk.setAttribute('r','5');mk.setAttribute('fill',gold);mk.setAttribute('stroke','#16211d');
+ mk.setAttribute('stroke-width','2');mk.setAttribute('opacity','0');hit.appendChild(mk);
+ svg.addEventListener('pointermove',e=>{const r=svg.getBoundingClientRect(),px=(e.clientX-r.left)/r.width*W;
+  let i=Math.round((px-P.l)/((W-P.l-P.r)/(nw.length-1)));i=Math.max(0,Math.min(nw.length-1,i));
+  const p=pts[i];cross.setAttribute('x1',p[0]);cross.setAttribute('x2',p[0]);cross.setAttribute('opacity','.6');
+  mk.setAttribute('cx',p[0]);mk.setAttribute('cy',p[1]);mk.setAttribute('opacity','1');
+  showTip(r.left+p[0]/W*r.width,r.top+p[1]/H*r.height,fmt(nw[i][1]),nw[i][0]);});
+ svg.addEventListener('pointerleave',()=>{cross.setAttribute('opacity','0');mk.setAttribute('opacity','0');hideTip();});
+})();
+const trend=[["Aug ’23–Jul ’24",79092,123202,114646],["Aug ’24–Jul ’25",96405,116713,134770],["Aug ’25–Jul ’26",98348,125075,150274]];
+(function(){
+ const W=980,H=220,P={l:44,r:8,t:10,b:28};
+ const cs=getComputedStyle(document.documentElement);
+ const green=cs.getPropertyValue('--green').trim(),clay=cs.getPropertyValue('--clay').trim(),
+       slate=cs.getPropertyValue('--slate').trim(),edge=cs.getPropertyValue('--edge').trim(),
+       faint=cs.getPropertyValue('--faint').trim(),muted=cs.getPropertyValue('--muted').trim();
+ const series=[['Guaranteed income',green,1],['Portfolio draw',slate,2],['Lifestyle spending',clay,3]];
+ const max=Math.max(...trend.flatMap(d=>[d[1],d[2],d[3]]));
+ const Y=v=>P.t+(H-P.t-P.b)*(1-v/max);
+ const groupW=(W-P.l-P.r)/trend.length, barW=groupW/(series.length+1.4);
+ let g='';const step=max/4;
+ for(let i=0;i<=4;i++){const v=step*i,y=Y(v);
+  g+=`<line x1="${P.l}" x2="${W-P.r}" y1="${y}" y2="${y}" stroke="${edge}" stroke-width="1"/>`+
+     `<text x="${P.l-8}" y="${y+4}" fill="${faint}" font-size="11" text-anchor="end">$${Math.round(v/1000)}k</text>`;}
+ trend.forEach((d,gi)=>{
+  const gx=P.l+groupW*gi;
+  series.forEach(([label,color,idx])=>{
+   const v=d[idx],y=Y(v),h=(H-P.b)-y,x=gx+barW*(idx-0.5);
+   g+=`<rect class="tbar" tabindex="0" data-a="${label}" data-b="${fmt(v)}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" `+
+      `width="${(barW*.82).toFixed(1)}" height="${h.toFixed(1)}" fill="${color}" rx="2"/>`;});
+  g+=`<text x="${(gx+groupW/2).toFixed(1)}" y="${H-8}" fill="${muted}" font-size="11.5" text-anchor="middle">${d[0]}</text>`;});
+ document.getElementById('trendchart').innerHTML=
+  `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Three-year income, spending and draw">${g}</svg>`;
+ bindTips('.tbar');
+})();
+const inc=[["Alex Pension",32459],["Alex Social Security",23375],["Jordan Pension",22839],["Jordan Social Security",19202],["Other Income",473]];
+document.getElementById('incrows').innerHTML=
+ inc.map(d=>`<div class="row"><span>${d[0]}</span><span class="v num">${fmt(d[1])}</span></div>`).join('')
+ +`<div class="row tot"><span>Total guaranteed</span><span class="v num">$98,348</span></div>`;
+const ex=[["Housing",55431],["Home Projects &amp; Upkeep",32569],["Food &amp; Dining",17041],["Travel",15601],["Shopping",12359],["Giving",5282],["Healthcare",4897],["Transportation",3717],["Subscriptions &amp; Media",1651]];
+(function(){const max=Math.max(...ex.map(d=>d[1]));
+ document.getElementById('exprows').innerHTML=ex.map(d=>`
+  <div class="lrow" tabindex="0" data-a="${d[0]}" data-b="${fmt(d[1])}">
+   <span class="rl">${d[0]}</span><span class="rv num">${fmt(d[1])}</span>
+   <span class="track"><span class="fill" style="width:0;background:var(--green)"></span></span></div>`).join('');
+ requestAnimationFrame(()=>document.querySelectorAll('#exprows .fill').forEach((f,i)=>f.style.width=(ex[i][1]/max*100)+'%'));
+ bindTips('#exprows .lrow');})();
+const dr=[["Routine draw — the standing monthly rate",108000,"var(--slate)"],["Episodic draw — usually tax",17075,"var(--gold)"]];
+(function(){const max=dr.reduce((a,b)=>a+b[1],0)||1;
+ document.getElementById('drawrows').innerHTML=dr.map(d=>`
+  <div class="lrow" tabindex="0" data-a="${d[0]}" data-b="${fmt(d[1])}">
+   <span class="rl">${d[0]}</span><span class="rv num">${fmt(d[1])}</span>
+   <span class="track"><span class="fill" style="width:0;background:${d[2]}"></span></span></div>`).join('')
+  +`<div class="gapline" style="border-top:none;padding-top:4px;margin-top:2px"><span>Total drawn</span>
+    <span class="num">$125,075</span></div>`;
+ requestAnimationFrame(()=>document.querySelectorAll('#drawrows .fill').forEach((f,i)=>f.style.width=(dr[i][1]/max*100)+'%'));
+ bindTips('#drawrows .lrow');})();
+</script>
+</body>
+</html>

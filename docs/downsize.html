@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Downsize / Sale-to-Rent Model — Alex &amp; Jordan</title>
+<style>
+:root{--paper:#e9ece8;--card:#fff;--edge:#d5dbd4;--ink:#1a2420;--muted:#5b6a62;--faint:#8a988f;
+ --gold:#8f6f34;--green:#2f6d54;--clay:#a9503b;--slate:#4a6572;--grid:#e4e8e3;--hero:#16211d;
+ --shadow:0 1px 2px rgba(20,33,28,.06),0 12px 30px rgba(20,33,28,.07);}
+@media (prefers-color-scheme:dark){:root{--paper:#0e1512;--card:#141d18;--edge:#243029;--ink:#e7ede8;
+ --muted:#9fb0a6;--faint:#6d7f75;--gold:#cba85e;--green:#5fa588;--clay:#d0745c;--slate:#8aa6b3;
+ --grid:#202b25;--hero:#0b110e;--shadow:0 1px 2px rgba(0,0,0,.4),0 14px 34px rgba(0,0,0,.36);}}
+:root[data-theme="light"]{--paper:#e9ece8;--card:#fff;--edge:#d5dbd4;--ink:#1a2420;--muted:#5b6a62;
+ --faint:#8a988f;--gold:#8f6f34;--green:#2f6d54;--clay:#a9503b;--slate:#4a6572;--grid:#e4e8e3;--hero:#16211d;}
+:root[data-theme="dark"]{--paper:#0e1512;--card:#141d18;--edge:#243029;--ink:#e7ede8;--muted:#9fb0a6;
+ --faint:#6d7f75;--gold:#cba85e;--green:#5fa588;--clay:#d0745c;--slate:#8aa6b3;--grid:#202b25;--hero:#0b110e;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);line-height:1.5;
+ font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:40px 24px 64px}
+.serif{font-family:"Iowan Old Style",Georgia,"Times New Roman",serif}
+.num{font-variant-numeric:tabular-nums}
+.eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:600}
+h1{font-size:1.45rem;margin:.15em 0 0;font-weight:600;letter-spacing:-.01em}
+header .meta{color:var(--muted);font-size:.85rem;margin-top:6px}
+.rule{height:1px;background:var(--edge);margin:26px 0}
+.topnav{display:flex;gap:8px;margin:16px 0 0;flex-wrap:wrap}
+.topnav a{font-size:.78rem;text-decoration:none;color:var(--muted);border:1px solid var(--edge);
+ border-radius:999px;padding:5px 13px;background:var(--card);transition:.15s}
+.topnav a:hover,.topnav a:focus-visible{color:var(--ink);border-color:var(--gold)}
+.topnav a.here{background:var(--hero);color:#eef3ef;border-color:var(--hero)}
+.trend{background:var(--card);border:1px solid var(--edge);border-radius:14px;padding:22px 24px;
+ box-shadow:var(--shadow);margin-top:20px}
+.trend h2{font-size:1.02rem;font-weight:600;margin:0 0 3px}
+.trend .period{color:var(--faint);font-size:.8rem;margin:5px 0 0;max-width:70ch;line-height:1.45}
+.trend .period b{color:var(--muted)}
+.trend .lead{color:var(--ink);font-size:.95rem;margin:12px 0 4px;max-width:66ch;line-height:1.5}
+.trend .lead b{color:var(--green)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+.mini{background:var(--paper);border:1px solid var(--edge);border-radius:12px;padding:16px 18px}
+.mini h3{font-size:.82rem;font-weight:600;margin:0 0 10px;color:var(--muted)}
+.mini .row{display:flex;justify-content:space-between;gap:10px;font-size:.86rem;padding:5px 0}
+.mini .row .v{color:var(--muted)}
+.mini .row.tot{border-top:1px solid var(--edge);margin-top:5px;padding-top:9px;font-weight:600}
+.mini .row.tot .v{color:var(--ink)}
+.htable{width:100%;border-collapse:collapse;font-size:.86rem;margin-top:10px}
+.htable th{text-align:right;font-size:.68rem;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);
+ font-weight:600;padding:0 0 8px 12px;border-bottom:1px solid var(--edge)}
+.htable th:first-child{text-align:left;padding-left:0}
+.htable td{padding:9px 0 9px 12px;border-bottom:1px solid var(--edge);text-align:right}
+.htable td:first-child{text-align:left;padding-left:0;color:var(--muted)}
+.htable tr:last-child td{border-bottom:none}
+svg{display:block;width:100%;height:auto}
+.legend{display:flex;gap:18px;font-size:.76rem;color:var(--muted);margin-top:10px;flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
+.note{background:var(--card);border:1px solid var(--edge);border-left:3px solid var(--slate);
+ border-radius:12px;padding:18px 22px;margin-top:14px;box-shadow:var(--shadow)}
+.note h2{font-size:.98rem;margin:0 0 8px}
+.note p{margin:0 0 9px;font-size:.9rem} .note p:last-child{margin-bottom:0}
+.note .q{color:var(--muted);font-size:.84rem}
+.assump{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:10px}
+.assump td{padding:6px 0;border-bottom:1px solid var(--edge)}
+.assump td:first-child{color:var(--muted)}
+.assump td:last-child{text-align:right;font-weight:600}
+footer{color:var(--faint);font-size:.76rem;margin-top:28px;display:flex;justify-content:space-between;
+ flex-wrap:wrap;gap:8px}
+.tag{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--edge);border-radius:999px;
+ padding:3px 10px;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+#tt{position:fixed;pointer-events:none;background:var(--hero);color:#eef3ef;border-radius:8px;padding:7px 10px;
+ font-size:.8rem;opacity:0;transition:opacity .12s;z-index:9;white-space:nowrap}
+#tt .t2{color:#9db3a8;font-size:.74rem}
+@media (max-width:780px){.grid2{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
+      <div>
+        <div class="eyebrow">Household Financial Summary</div>
+        <h1 class="serif">Downsize / Sale-to-Rent Model</h1>
+        <div class="meta">Hypothetical — all figures are estimates, editable on the "Downsize Model" sheet tab</div>
+      </div>
+      <span class="tag">● Private</span>
+    </div>
+    <nav class="topnav">
+      <a href="dashboard.html">Financial Summary</a>
+      <a href="spending.html">Spending by Category</a>
+      <a href="tiers.html">Spending by Tier</a>
+      <a href="downsize.html" class="here">Downsize Model</a>
+      <a href="sustainability.html">Retirement Sustainability</a>
+    </nav>
+  </header>
+  <div class="rule"></div>
+
+  <section class="trend">
+    <h2 class="serif">If we sold and rented instead</h2>
+    <p class="period">Not financial advice — a what-if model to react to, not a plan. Proceeds-only:
+      this treats the net sale proceeds as their own invested pot, not our whole portfolio. Every
+      number below traces back to a labeled cell on the "Downsize Model" sheet tab or is pulled
+      live from the transaction feed — nothing here is hardcoded in the script.</p>
+    <p class="lead">Selling today would net an estimated <b>$745,911</b> after our mortgage,
+      selling costs, and capital gains tax (live-tracked payoff is currently $387,671, below the $400,000 assumption). Invested, that could sustainably support about <b>$2,550/mo</b> in rent at 90% confidence over 25 years — less than the $3,962/mo it <i>effectively</i> costs to own our house today, after netting out the mortgage-interest and property-tax tax benefit (see below) — costing roughly $1,412/mo.</p>
+
+    <div class="grid2">
+      <div class="mini"><h3>Net proceeds waterfall</h3><div class="row"><span>Current market value</span><span class="v num">$1,250,000</span></div><div class="row"><span>− Transfer tax + agent/closing costs</span><span class="v num">−$76,375</span></div><div class="row"><span>− Mortgage payoff</span><span class="v num">−$400,000</span></div><div class="row"><span>− Capital gains tax (fed + NIIT + CA)</span><span class="v num">−$27,714</span></div><div class="row tot"><span>= Net proceeds to invest</span><span class="v num">$745,911</span></div></div>
+      <div class="mini"><h3>Gain &amp; tax</h3>
+        <div class="row"><span>Cost basis (purchase + improvements)</span><span class="v num">$575,000</span></div>
+        <div class="row"><span>Realized gain</span><span class="v num">$598,625</span></div>
+        <div class="row"><span>§121 exclusion (MFJ)</span><span class="v num">−$500,000</span></div>
+        <div class="row tot"><span>Taxable gain</span><span class="v num">$98,625</span></div>
+        <div class="row"><span>Tax owed (fed 15.0% + NIIT 3.8% + CA 9.3%)</span>
+          <span class="v num">$27,714</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="trend">
+    <h2 class="serif">How much rent could the proceeds sustain?</h2>
+    <p class="period">Monte Carlo, 3,000 trials, real terms (already
+      inflation-adjusted — expected return 5%/yr,
+      volatility 12%/yr). General inflation and rent inflation are both assumed at 3%/yr, so rent is assumed to track general prices exactly — the withdrawal below is a flat real (inflation-adjusted) amount, it does not need to grow on its own. Ruin is
+      permanent — once a path hits zero it stays there. Each column is the largest monthly
+      withdrawal that still succeeds (never runs out) in at least that fraction of the 1,000
+      simulated paths. 50 years stands in for "indefinitely." Figures below are shown per month;
+      the model itself simulates in annual terms.</p>
+    <table class="htable">
+      <thead><tr><th>Horizon</th><th>75% confidence /mo</th><th>90% confidence /mo</th><th>95% confidence /mo</th></tr></thead>
+      <tbody><tr><td>20</td><td class="num">$3,708</td><td class="num">$3,013</td><td class="num">$2,781</td></tr><tr><td>25</td><td class="num">$3,245</td><td class="num">$2,550</td><td class="num">$2,318</td></tr><tr><td>30</td><td class="num">$2,897</td><td class="num">$2,318</td><td class="num">$1,970</td></tr><tr><td>50 (indefinite proxy)</td><td class="num">$2,202</td><td class="num">$1,738</td><td class="num">$1,391</td></tr></tbody>
+    </table>
+    <div id="curvechart" style="margin-top:18px"></div>
+    <div class="legend" id="curvelegend"></div>
+  </section>
+
+  <section class="trend">
+    <h2 class="serif">The tax benefit of owning (lost if you sell)</h2>
+    <p class="period"><b>Not a CPA figure — for CPA review, not a substitute for one.</b> Mortgage
+      interest and property tax are deductible; renting has no comparable deduction. This
+      estimates that benefit and nets it out of the "cost of owning" comparison above, using the
+      illustrative example rates and other-deductions baseline on the "Downsize Model" sheet tab,
+      applied live to whatever mortgage interest and property tax the current 12-month window
+      shows. Two deliberate simplifications, both explained where they apply: the federal side
+      accounts for the standard deduction (see below — it matters, roughly halves the naive
+      number); the California side does not, because it doesn't change the answer enough to be
+      worth the complexity for our household specifically.</p>
+    <div class="grid2">
+      <div class="mini"><h3>Federal</h3>
+        <div class="row"><span>Mortgage interest (current 12mo)</span><span class="v num">$28,076</span></div>
+        <div class="row"><span>Property tax (current 12mo)</span><span class="v num">$12,454</span></div>
+        <div class="row"><span>+ Other itemized (charity + other SALT)</span><span class="v num">$8,200</span></div>
+        <div class="row tot"><span>= Itemized, with the home</span><span class="v num">$48,730</span></div>
+        <div class="row"><span>vs. standard deduction / itemized without home</span><span class="v num">$30,000</span></div>
+        <div class="row tot"><span>Incremental deduction from owning</span><span class="v num">$18,730</span></div>
+        <div class="row"><span>× 22% marginal rate</span>
+          <span class="v num">$4,121/yr</span></div>
+      </div>
+      <div class="mini"><h3>California</h3>
+        <div class="row"><span>Mortgage interest + property tax</span>
+          <span class="v num">$40,530</span></div>
+        <div class="row"><span>No SALT cap, no standard-deduction crowd-out modeled</span><span class="v num">—</span></div>
+        <div class="row"><span>× 9.3% marginal rate</span>
+          <span class="v num">$3,769/yr</span></div>
+        <div class="row tot" style="margin-top:28px"><span>Combined tax benefit of owning</span>
+          <span class="v num">$7,890/yr</span></div>
+      </div>
+    </div>
+    <div class="lsub" style="margin-top:14px">Raw cash cost of owning: <b>$55,431/yr</b>
+      ($4,619/mo). Net of the tax benefit above: <b>$47,541/yr</b>
+      ($3,962/mo) — this is the figure compared against sustainable rent
+      at the top of the page. Renting is assumed to get no itemized deduction of its own.</div>
+  </section>
+
+  <section class="note">
+    <h2 class="serif">Assumptions (edit these on the "Downsize Model" sheet tab)</h2>
+    <table class="assump">
+      <tr><td>Current market value</td><td class="num">$1,250,000</td></tr>
+      <tr><td>Original purchase price</td><td class="num">$480,000</td></tr>
+      <tr><td>Capital improvements</td><td class="num">$95,000</td></tr>
+      <tr><td>Remaining mortgage balance</td><td class="num">$400,000</td></tr>
+      <tr><td>Transfer tax + closing costs rate</td><td class="num">6.11%</td></tr>
+      <tr><td>Combined cap-gains rate on taxable gain</td><td class="num">28.1%</td></tr>
+      <tr><td>Federal / CA marginal ordinary rate (mortgage &amp; property tax)</td><td class="num">22% / 9.3%</td></tr>
+      <tr><td>Expected real return / volatility</td><td class="num">5% / 12%</td></tr>
+      <tr><td>General inflation</td><td class="num">3.0%/yr</td></tr>
+      <tr><td>Rent inflation</td><td class="num">3.0%/yr</td></tr>
+      <tr><td>→ Rent's real growth rate (derived)</td><td class="num">+0.0%/yr</td></tr>
+      <tr><td>Cost of owning our house — raw cash / net of tax benefit</td><td class="num">$55,431 / $47,541</td></tr>
+    </table>
+    <p class="q" style="margin-top:12px">Not a CFP/CPA figure. Cap-gains rate is an illustrative
+      example (15% federal bracket, not the 20% top rate) — check it against your own actual
+      return, since a large enough gain could push into the 20% band. Selling now realizes and
+      taxes the gain today; holding our house until death gives heirs a full step-up in basis
+      instead, which is a real trade-off worth raising with the CFP separately from this model.</p>
+  </section>
+
+  <footer><span>Generated from the Tiller sheet · 07 August 2026, 17:50</span>
+    <span>Private summary — not financial advice</span></footer>
+</div>
+<div id="tt"><div class="t1"></div><div class="t2"></div></div>
+<script>
+const fmt=n=>"$"+Math.round(n).toLocaleString();
+const tt=document.getElementById('tt');
+function showTip(x,y,a,b){tt.querySelector('.t1').textContent=a;tt.querySelector('.t2').textContent=b;
+ tt.style.opacity=1;const r=tt.getBoundingClientRect();
+ tt.style.left=Math.min(Math.max(x-r.width/2,8),innerWidth-r.width-8)+'px';tt.style.top=(y-r.height-14)+'px';}
+function hideTip(){tt.style.opacity=0;}
+const cs=getComputedStyle(document.documentElement);
+const col=n=>cs.getPropertyValue(n).trim();
+const curves=[[20,[[0,1.0000],[116,1.0000],[232,1.0000],[348,1.0000],[464,1.0000],[579,1.0000],[695,1.0000],[811,1.0000],[927,1.0000],[1043,1.0000],[1159,1.0000],[1275,1.0000],[1391,1.0000],[1507,1.0000],[1622,0.9993],[1738,0.9983],[1854,0.9977],[1970,0.9960],[2086,0.9923],[2202,0.9863],[2318,0.9840],[2434,0.9793],[2550,0.9723],[2665,0.9617],[2781,0.9510],[2897,0.9333],[3013,0.9163],[3129,0.8957],[3245,0.8763],[3361,0.8530],[3477,0.8287],[3593,0.8027],[3708,0.7753],[3824,0.7447],[3940,0.7147],[4056,0.6760],[4172,0.6387],[4288,0.6043],[4404,0.5680],[4520,0.5387],[4636,0.5033],[4751,0.4700],[4867,0.4427],[4983,0.4063],[5099,0.3717],[5215,0.3430],[5331,0.3167],[5447,0.2850],[5563,0.2617],[5679,0.2353],[5795,0.2140],[5910,0.1920],[6026,0.1743],[6142,0.1533],[6258,0.1367],[6374,0.1183],[6490,0.1080],[6606,0.0987],[6722,0.0870],[6838,0.0790]]],[25,[[0,1.0000],[116,1.0000],[232,1.0000],[348,1.0000],[464,1.0000],[579,1.0000],[695,1.0000],[811,1.0000],[927,1.0000],[1043,1.0000],[1159,1.0000],[1275,0.9993],[1391,0.9987],[1507,0.9973],[1622,0.9953],[1738,0.9927],[1854,0.9857],[1970,0.9800],[2086,0.9740],[2202,0.9643],[2318,0.9540],[2434,0.9380],[2550,0.9157],[2665,0.8917],[2781,0.8710],[2897,0.8473],[3013,0.8210],[3129,0.7883],[3245,0.7553],[3361,0.7257],[3477,0.6890],[3593,0.6493],[3708,0.6110],[3824,0.5683],[3940,0.5340],[4056,0.5007],[4172,0.4590],[4288,0.4293],[4404,0.3943],[4520,0.3640],[4636,0.3313],[4751,0.3027],[4867,0.2723],[4983,0.2490],[5099,0.2233],[5215,0.1963],[5331,0.1780],[5447,0.1627],[5563,0.1467],[5679,0.1253],[5795,0.1127],[5910,0.0983],[6026,0.0873],[6142,0.0767],[6258,0.0690],[6374,0.0590],[6490,0.0500],[6606,0.0447],[6722,0.0387],[6838,0.0350]]],[30,[[0,1.0000],[116,1.0000],[232,1.0000],[348,1.0000],[464,1.0000],[579,1.0000],[695,1.0000],[811,1.0000],[927,0.9997],[1043,0.9990],[1159,0.9983],[1275,0.9973],[1391,0.9950],[1507,0.9910],[1622,0.9850],[1738,0.9770],[1854,0.9713],[1970,0.9600],[2086,0.9457],[2202,0.9267],[2318,0.9030],[2434,0.8770],[2550,0.8533],[2665,0.8243],[2781,0.7977],[2897,0.7573],[3013,0.7210],[3129,0.6860],[3245,0.6450],[3361,0.6030],[3477,0.5613],[3593,0.5193],[3708,0.4847],[3824,0.4513],[3940,0.4170],[4056,0.3827],[4172,0.3487],[4288,0.3143],[4404,0.2860],[4520,0.2603],[4636,0.2333],[4751,0.2073],[4867,0.1850],[4983,0.1690],[5099,0.1487],[5215,0.1327],[5331,0.1190],[5447,0.1030],[5563,0.0900],[5679,0.0763],[5795,0.0660],[5910,0.0597],[6026,0.0517],[6142,0.0430],[6258,0.0377],[6374,0.0320],[6490,0.0287],[6606,0.0247],[6722,0.0187],[6838,0.0163]]],[50,[[0,1.0000],[116,1.0000],[232,1.0000],[348,1.0000],[464,1.0000],[579,0.9997],[695,0.9990],[811,0.9977],[927,0.9953],[1043,0.9933],[1159,0.9860],[1275,0.9770],[1391,0.9657],[1507,0.9477],[1622,0.9277],[1738,0.9070],[1854,0.8783],[1970,0.8477],[2086,0.8207],[2202,0.7837],[2318,0.7430],[2434,0.6987],[2550,0.6573],[2665,0.6160],[2781,0.5723],[2897,0.5230],[3013,0.4830],[3129,0.4427],[3245,0.4053],[3361,0.3753],[3477,0.3387],[3593,0.3040],[3708,0.2773],[3824,0.2500],[3940,0.2187],[4056,0.1967],[4172,0.1760],[4288,0.1530],[4404,0.1353],[4520,0.1223],[4636,0.1043],[4751,0.0903],[4867,0.0793],[4983,0.0680],[5099,0.0567],[5215,0.0473],[5331,0.0407],[5447,0.0333],[5563,0.0307],[5679,0.0267],[5795,0.0240],[5910,0.0193],[6026,0.0153],[6142,0.0130],[6258,0.0113],[6374,0.0087],[6490,0.0070],[6606,0.0060],[6722,0.0057],[6838,0.0040]]]];
+(function(){
+ const W=980,H=280,P={l:52,r:16,t:14,b:34};
+ const colors={20:col('--slate'),25:col('--green'),30:col('--gold'),50:col('--clay')};
+ const maxW=Math.max(...curves.flatMap(c=>c[1].map(p=>p[0])));
+ const X=w=>P.l+(W-P.l-P.r)*w/maxW, Y=s=>P.t+(H-P.t-P.b)*(1-s);
+ let g='';
+ for(let i=0;i<=4;i++){const s=i/4,y=Y(s);
+   g+=`<line x1="${P.l}" x2="${W-P.r}" y1="${y}" y2="${y}" stroke="${col('--edge')}" stroke-width="1"/>`+
+      `<text x="${P.l-8}" y="${y+4}" fill="${col('--faint')}" font-size="10.5" text-anchor="end">${(s*100).toFixed(0)}%</text>`;}
+ for(let i=0;i<=4;i++){const w=maxW*i/4,x=X(w);
+   const anchor=i===0?'start':(i===4?'end':'middle');
+   g+=`<text x="${x}" y="${H-10}" fill="${col('--muted')}" font-size="10.5" text-anchor="${anchor}">${fmt(w)}</text>`;}
+ let lines='';
+ curves.forEach(([h,pts])=>{
+  const d=pts.map((p,i)=>(i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1)).join(' ');
+  lines+=`<path d="${d}" fill="none" stroke="${colors[h]}" stroke-width="2.25" stroke-linejoin="round" class="curveline" data-h="${h}"/>`;
+ });
+ document.getElementById('curvechart').innerHTML=
+  `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Withdrawal vs success probability">${g}${lines}
+   <text x="${W/2}" y="${H-1}" fill="${col('--faint')}" font-size="9.5" text-anchor="middle" opacity="0"> </text></svg>
+   <div style="text-align:center;color:${col('--faint')};font-size:.72rem;margin-top:4px">monthly withdrawal (real $) →</div>`;
+ document.getElementById('curvelegend').innerHTML=
+  Object.entries(colors).map(([h,c])=>`<span><i style="background:${c}"></i>${h} years${h==='50'?' (indefinite proxy)':''}</span>`).join('');
+})();
+</script>
+</body>
+</html>
