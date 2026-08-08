@@ -19,6 +19,10 @@ a made-up household ("Alex & Jordan") — see
 Use **File → Make a copy** to get your own editable copy to build from (see
 [`SETUP_GOOGLE_SHEETS.md`](SETUP_GOOGLE_SHEETS.md)).
 
+**Not financial, tax, or legal advice.** Every figure here is a model output based on assumptions
+you control — verify independently before making any real decision. Provided as-is, with no
+warranty; see [`LICENSE`](LICENSE).
+
 ## What's here that you won't find in a typical Tiller dashboard
 
 1. **Cut-order tier budgeting.** Every spending category is tagged Tier 0 (floor, never cut)
