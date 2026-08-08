@@ -67,15 +67,16 @@ open reports/dashboard.html                       # or reports/advisor_summary.p
 
 ## Using your own real data
 
-Once you're comfortable with how it works:
+**Heads up: this doesn't just plug into a stock Tiller sheet.** Some of what's read here is
+native to Tiller (Transactions, the base Categories columns, Accounts, Balance History); some of
+it — the `Bucket`/`Tier` columns on Categories, and the entire `Downsize Model` and `Portfolio
+Model` tabs — is custom structure the original household built by hand, with no Tiller feature
+behind it. `SETUP_GOOGLE_SHEETS.md` has the exact column/tab specs to add to your own sheet, plus
+which scripts work against a stock sheet as-is versus which need the custom pieces first.
 
-1. Copy `scripts/config.py` to `scripts/config_local.py` (gitignored) and set `HOUSEHOLD_NAME`,
-   `SHEET_NAME`, your real guaranteed-income category names, and your own tax-rate assumptions.
-   `render_*.py` never needs to change.
-2. Replace the synthetic rows on your sheet's **Transactions** and **Categories** tabs with your
-   own real Tiller export, and adjust **Balance History**, **Accounts**, **Downsize Model**, and
-   **Portfolio Model** to match your own numbers.
-3. Re-run `./run_demo.sh`.
+Once those exist: copy `scripts/config.py` to `scripts/config_local.py` (gitignored) and set
+`HOUSEHOLD_NAME`, `SHEET_NAME`, your real guaranteed-income category names, and your own
+tax-rate assumptions — `render_*.py` never needs to change — then re-run `./run_demo.sh`.
 
 ## What's not included
 
