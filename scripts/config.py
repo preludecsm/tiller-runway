@@ -5,7 +5,7 @@ box. To point this at your own real Tiller sheet, copy this file to config_local
 and override whatever you need there — render_*.py never needs to change.
 
   cp scripts/config.py scripts/config_local.py
-  # edit config_local.py: SHEET_NAME, HOUSEHOLD_NAME, your real pension/SS category names, ...
+  # edit config_local.py: SHEET_ID, HOUSEHOLD_NAME, your real pension/SS category names, ...
 """
 import os
 
@@ -14,6 +14,12 @@ HOUSEHOLD_NAME = 'Alex & Jordan'
 ADVISOR_NAME = 'Pat Chen, CPA'
 
 # ── Where the data lives ──────────────────────────────────────────────────────────────────────
+# SHEET_ID is what the scripts actually connect with (the long string in the sheet's URL, between
+# /d/ and /edit) -- addressing the sheet directly like this means the service account credential
+# only needs the narrow "spreadsheets" OAuth scope, not "drive" (which would let it search your
+# whole Drive by filename). SHEET_NAME is cosmetic only, for docs/error messages -- not used to
+# connect. See "Understanding the security model" in SETUP_GOOGLE_SHEETS.md.
+SHEET_ID = '1-pdkeSihXshh_2BB8BLRRpAGoAKfII8XK6R6Us3xAaY'
 SHEET_NAME = 'Tiller Mockup'
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

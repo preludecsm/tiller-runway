@@ -45,7 +45,7 @@ from google.oauth2.service_account import Credentials
 from datetime import datetime, date, timedelta
 from collections import defaultdict, Counter
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from config import (PROJECT_ROOT, SHEET_NAME, HOUSEHOLD_NAME, SSPENSION_CATS, PENSION_CATS,
+from config import (PROJECT_ROOT, SHEET_ID, SHEET_NAME, HOUSEHOLD_NAME, SSPENSION_CATS, PENSION_CATS,
                      TAX_RATE_FED, TAX_RATE_CA)
 
 P = PROJECT_ROOT; os.chdir(P)
@@ -107,8 +107,8 @@ def addmonths(d, n):
 
 def connect():
     creds = Credentials.from_service_account_file(glob.glob('./*.json')[0],
-        scopes=['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive'])
-    return gspread.authorize(creds).open(SHEET_NAME)
+        scopes=['https://www.googleapis.com/auth/spreadsheets'])
+    return gspread.authorize(creds).open_by_key(SHEET_ID)
 
 def compute():
     book = connect()

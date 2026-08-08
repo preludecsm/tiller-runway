@@ -52,7 +52,7 @@ from google.oauth2.service_account import Credentials
 from datetime import datetime, date, timedelta
 from collections import defaultdict
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from config import PROJECT_ROOT, SHEET_NAME, HOUSEHOLD_NAME
+from config import PROJECT_ROOT, SHEET_ID, SHEET_NAME, HOUSEHOLD_NAME
 
 P = PROJECT_ROOT; os.chdir(P)
 OUT = f'{P}/reports/downsize.html'
@@ -81,8 +81,8 @@ def addmonths(d, n):
 
 def connect():
     creds = Credentials.from_service_account_file(glob.glob('./*.json')[0],
-        scopes=['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive'])
-    return gspread.authorize(creds).open(SHEET_NAME)
+        scopes=['https://www.googleapis.com/auth/spreadsheets'])
+    return gspread.authorize(creds).open_by_key(SHEET_ID)
 
 def read_assumptions(book):
     vals = book.worksheet('Downsize Model').get_all_values()

@@ -20,7 +20,7 @@ import gspread, glob, os, random, sys
 from google.oauth2.service_account import Credentials
 from datetime import date, timedelta
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from config import PROJECT_ROOT, SHEET_NAME
+from config import PROJECT_ROOT, SHEET_ID, SHEET_NAME
 
 os.chdir(PROJECT_ROOT)
 random.seed(20260807)   # fixed seed -- the demo data is reproducible, not different every run
@@ -296,8 +296,8 @@ TABS = {
 
 def connect():
     creds = Credentials.from_service_account_file(glob.glob('./*.json')[0],
-        scopes=['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive'])
-    return gspread.authorize(creds).open(SHEET_NAME)
+        scopes=['https://www.googleapis.com/auth/spreadsheets'])
+    return gspread.authorize(creds).open_by_key(SHEET_ID)
 
 def main():
     dry_run = '--dry-run' in sys.argv

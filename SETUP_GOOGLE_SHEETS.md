@@ -4,31 +4,49 @@ Every report script reads its data from a Google Sheet via a **service account**
 non-interactive Google identity your script authenticates as, rather than logging in as you.
 This is the same pattern Tiller's own API access uses.
 
+**Read "Understanding the security model" below before you start** if you're putting real
+financial data anywhere near this — it explains exactly what each step does and doesn't expose,
+and it's short.
+
 ## 1. Create a Google Cloud service account
 
 1. In the [Google Cloud Console](https://console.cloud.google.com/), create a project (or reuse
-   one) and enable the **Google Sheets API** and **Google Drive API**.
+   one) and enable the **Google Sheets API**. (Not the Drive API — this project deliberately
+   doesn't use it; see below.)
 2. Under *IAM & Admin → Service Accounts*, create a service account. Any name is fine.
 3. Open it, go to *Keys → Add Key → Create new key → JSON*, and download the file.
-4. Drop that JSON file in the root of this repo (it's gitignored — `*.json` is excluded, so it
-   will never accidentally get committed). The scripts pick up whatever single `*.json` file they
-   find there.
+
+   **Risk concentrates here.** This file is a standing credential, not a login — whoever holds it
+   can act as this service account indefinitely, with no password or 2FA prompt, until you
+   revoke it. Treat it like a password: never email it, never paste it into a chat, never commit
+   it to git.
+4. Drop that JSON file in the root of this repo. It's gitignored (`*.json` is excluded) so it
+   won't get committed by accident — but double-check with `git status` after adding it the first
+   time, especially if you've changed the `.gitignore`. The scripts pick up whatever single
+   `*.json` file they find in the repo root.
 
 ## 2. Create the sheet and share it with the service account
 
-1. Create a new Google Sheet, named to match `SHEET_NAME` in `scripts/config.py` (defaults to
-   `"Tiller Mockup"` — change one or the other so they match).
-2. Open the downloaded JSON key file and copy the `client_email` value (looks like
+1. Create a new Google Sheet. Open it and copy the **spreadsheet ID** out of the URL — the long
+   string between `/d/` and `/edit`, e.g. `docs.google.com/spreadsheets/d/`**`1AbC...xyz`**`/edit`.
+2. Set `SHEET_ID` in `scripts/config.py` (or, better, in `scripts/config_local.py` — see step 4)
+   to that value.
+3. Open the downloaded JSON key file and copy the `client_email` value (looks like
    `something@your-project.iam.gserviceaccount.com`).
-3. In the Google Sheet, click **Share** and add that email address with **Editor** access.
+4. In the Google Sheet, click **Share** and add that email address with **Editor** access.
+
+   **What this grants, precisely:** access to *this one spreadsheet*, and nothing else — not your
+   Gmail, not your other Drive files, not your Google account generally. Google's sharing model
+   is per-file. Revoking it later is one click (remove the service account from this sheet's
+   share list) and takes effect immediately, independent of whether you also rotate the key.
 
 A service account has no Google Drive storage of its own — it can't create a sheet for you, only
 read/write one you've already created and shared with it. That's why this is a manual step rather
 than something a script can do automatically.
 
-This Editor grant is separate from — and not the same as — any public link you might share the
-sheet under. The service account needs Editor access so *your own scripts* can write to it; anyone
-you share a public view link with should get **Viewer**, not Editor (see below).
+The Editor grant above is separate from — and not the same as — any public link you might share
+the sheet under later. The service account needs Editor access so *your own scripts* can write to
+it; anyone you share a public view link with should get **Viewer**, not Editor (see below).
 
 ## 3. Populate it
 
@@ -40,6 +58,11 @@ This fabricates three years of synthetic data and writes it into the six tabs th
 expect (Categories, Transactions, Balance History, Accounts, Downsize Model, Portfolio Model).
 
 ## 4. Using your own real data instead
+
+**This is the point where real financial data enters the picture — read "Understanding the
+security model" below first if you haven't.** Everything above this point can be done with zero
+risk beyond the usual "don't leak your API key" caution, since it's all synthetic. Once you paste
+in a real Tiller export, the sheet you shared in step 2 actually matters.
 
 **This does not work out of the box against a stock Tiller sheet.** Some of what these scripts
 read is native to Tiller; some of it is custom structure the original household built by hand on
@@ -128,8 +151,43 @@ which.
 Once the custom pieces exist, replace the synthetic rows on **Transactions** and **Categories**
 with your own real Tiller export, and adjust **Balance History**, **Accounts**, **Downsize
 Model**, and **Portfolio Model** to match your own numbers. Copy `scripts/config.py` to
-`scripts/config_local.py` (gitignored) and set `HOUSEHOLD_NAME`, `SHEET_NAME`, and your own
+`scripts/config_local.py` (gitignored) and set `HOUSEHOLD_NAME`, `SHEET_ID`, and your own
 guaranteed-income category names there — the report scripts themselves never need to change.
+
+## Understanding the security model
+
+Worth reading in full before you point this at anything real. Two separate things are going on,
+and they carry very different levels of risk.
+
+**Sharing the sheet with the service account (step 2) is low risk.** It's the same mechanism as
+sharing a doc with a specific person's email — the service account gets access to *that one
+spreadsheet*, nothing else. It can't see your Gmail, your other Drive files, or anything else in
+your Google account. This repo also connects by the sheet's ID (`open_by_key`), not by searching
+for it by name, so the credential only requests the narrow `spreadsheets` OAuth scope — it never
+asks for `drive` scope at all, which is what would be needed to search your Drive by filename. The
+practical effect: even if something went wrong, there's no code path here that could reach any
+file you didn't explicitly share.
+
+**The downloaded JSON key file (step 1) is where real risk concentrates.** It's a long-lived
+credential, not a session — anyone holding it can authenticate as the service account and act on
+whatever's shared with it, indefinitely, with no login prompt, until the key is revoked. The most
+common way these leak in practice is someone accidentally committing the key file to a public
+GitHub repo. This project's `.gitignore` excludes `*.json` specifically to prevent that, but
+`.gitignore` only helps if you don't override it — don't `git add -f` this file, and if you ever
+restructure `.gitignore`, check the key stays excluded.
+
+**Two independent kill-switches, either one stops all access:**
+1. Remove the service account from the sheet's share list (Google Sheets → Share) — instant,
+   no code change, works even if the key is still valid.
+2. Delete or rotate the key in Google Cloud Console (*IAM & Admin → Service Accounts → Keys*) —
+   kills the credential entirely, even if the sheet sharing is untouched.
+
+**If you're evaluating whether to point this at your real financial data at all:** this is the
+same authentication pattern most third-party financial tools use to connect to a Google Sheet or
+similar data source — a scoped, revocable, per-resource credential, not your actual Google
+password and not a broad "read everything" OAuth consent. That's meaningfully safer than the
+alternatives, but "meaningfully safer" isn't "risk-free" — the key-handling discipline above is
+what actually keeps it safe, not the pattern by itself.
 
 ## About the published demo sheet
 

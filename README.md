@@ -56,8 +56,11 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 ```
 
 Then set up a Google Sheet and share it with a service account — see
-[`SETUP_GOOGLE_SHEETS.md`](SETUP_GOOGLE_SHEETS.md) for the 4-step walkthrough (it's a one-time
-thing; a service account can't create its own sheet, so you make a blank one and share it).
+[`SETUP_GOOGLE_SHEETS.md`](SETUP_GOOGLE_SHEETS.md) for the walkthrough (it's a one-time thing; a
+service account can't create its own sheet, so you make a blank one and share it). With only
+synthetic data involved at this stage there's nothing sensitive to worry about yet, but the doc
+also covers exactly what "sharing a sheet with a service account" does and doesn't expose, worth
+reading before you ever point this at real data — see **Security** below.
 
 ```bash
 .venv/bin/python3 scripts/generate_demo_data.py   # fabricates 3 years of synthetic household data
@@ -75,8 +78,21 @@ behind it. `SETUP_GOOGLE_SHEETS.md` has the exact column/tab specs to add to you
 which scripts work against a stock sheet as-is versus which need the custom pieces first.
 
 Once those exist: copy `scripts/config.py` to `scripts/config_local.py` (gitignored) and set
-`HOUSEHOLD_NAME`, `SHEET_NAME`, your real guaranteed-income category names, and your own
+`HOUSEHOLD_NAME`, `SHEET_ID`, your real guaranteed-income category names, and your own
 tax-rate assumptions — `render_*.py` never needs to change — then re-run `./run_demo.sh`.
+
+## Security
+
+Sharing a real Tiller sheet with a service account is low risk *if* the credential is handled
+carefully — the sharing itself only grants access to that one spreadsheet, nothing else in your
+Google account. The actual risk concentrates in the downloaded JSON key file, which is a
+long-lived credential, not a login — anyone holding it can act as the service account until it's
+revoked. This repo also connects by spreadsheet ID rather than searching Drive by name, so the
+credential only ever requests the narrow `spreadsheets` scope, never `drive`.
+
+Full explanation, plus the two independent ways to revoke access if anything goes wrong, in
+**"Understanding the security model"** in [`SETUP_GOOGLE_SHEETS.md`](SETUP_GOOGLE_SHEETS.md#understanding-the-security-model)
+— read it before pointing this at anything real.
 
 ## What's not included
 
