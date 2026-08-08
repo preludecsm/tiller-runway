@@ -239,7 +239,7 @@ svg{display:block;width:100%;height:auto}
       this page shows the picture, not a verdict.</p>
   </section>
 
-  <footer><span>Generated from the Tiller sheet · 07 August 2026, 17:50</span>
+  <footer><span>Generated from the Tiller sheet · 07 August 2026, 18:27</span>
     <span>Private summary — not financial advice</span></footer>
 </div>
 <div id="tt"><div class="t1"></div><div class="t2"></div></div>
@@ -330,7 +330,7 @@ const ex=[["Housing",55431],["Home Projects &amp; Upkeep",32569],["Food &amp; Di
    <span class="track"><span class="fill" style="width:0;background:var(--green)"></span></span></div>`).join('');
  requestAnimationFrame(()=>document.querySelectorAll('#exprows .fill').forEach((f,i)=>f.style.width=(ex[i][1]/max*100)+'%'));
  bindTips('#exprows .lrow');})();
-const dr=[["Routine draw — the standing monthly rate",108000,"var(--slate)"],["Episodic draw — usually tax",17075,"var(--gold)"]];
+const dr=[["Routine draw — $9,000/mo, annual total",108000,"var(--slate)"],["Episodic draw — usually tax",17075,"var(--gold)"]];
 (function(){const max=dr.reduce((a,b)=>a+b[1],0)||1;
  document.getElementById('drawrows').innerHTML=dr.map(d=>`
   <div class="lrow" tabindex="0" data-a="${d[0]}" data-b="${fmt(d[1])}">

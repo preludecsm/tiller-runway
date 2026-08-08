@@ -156,7 +156,7 @@ def compute():
         routine = sum(x for x in draws if x == routine_amt)
         episodic = sum(draws) - routine
         return dict(start=st, end=en, cat=cat, income=inc, routine=routine, episodic=episodic,
-                    incsrc=incsrc)
+                    routine_amt=routine_amt, incsrc=incsrc)
 
     W = [agg(st, en) for st, en in wins]
     cur = W[-1]
@@ -443,8 +443,9 @@ footer{{color:var(--faint);font-size:.76rem;margin-top:28px;display:flex;justify
     <p class="period">Three pools, same priority order as the tiers themselves and the same
       routine/episodic split used on the Financial Summary: <b>guaranteed income</b>
       (<b>{usd(cur['income'])}</b>) fills Tier 0 first, then 1, then 2, then 3; whatever's left
-      after that draws on the <b>routine draw</b> ({usd(cur['routine'])}, the standing monthly
-      rate), then the <b>episodic draw</b> ({usd(cur['episodic'])}, mostly tax-funding). This is
+      after that draws on the <b>routine draw</b> ({usd(cur['routine'])}/yr, at a standing
+      {usd(cur['routine_amt'])}/mo), then the <b>episodic draw</b> ({usd(cur['episodic'])},
+      mostly tax-funding). This is
       an allocation model, not a trace of literal dollars — money is fungible — but it answers
       "what specifically pays for this" in the same cut-priority terms as the tiers.</p>
     <p class="period">{"Guaranteed income covers the entire floor" if floor_covered else "Guaranteed income does NOT fully cover the floor"}{

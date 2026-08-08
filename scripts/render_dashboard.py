@@ -342,7 +342,7 @@ def build_html(f):
                f'with total income (especially realized capital gains) and should be re-derived from each '
                f'new return, not trusted indefinitely. Not a CPA figure — see config.py.</div>')
 
-    dr = [("Routine draw — the standing monthly rate", cur['routine'], "var(--slate)"),
+    dr = [(f"Routine draw — {usd(cur['routine_amt'])}/mo, annual total", cur['routine'], "var(--slate)"),
           ("Episodic draw — usually tax", cur['episodic'], "var(--gold)")]
     drjs = ','.join(f'["{html.escape(n)}",{round(v)},"{c}"]' for n, v, c in dr if v)
 

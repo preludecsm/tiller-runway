@@ -379,7 +379,7 @@ def build_html(f):
                             'the prior year, and an April payment is ambiguous between a Q1 estimate for the '
                             'current year and a balance-due payment for the prior year\'s return.')
 
-    d2_dr = [("Routine draw — the standing monthly rate", cur['routine']),
+    d2_dr = [(f"Routine draw — {usd(cur['routine_amt'])}/mo, annual total", cur['routine']),
              ("Episodic draw — usually tax", cur['episodic'])]
     d2_drawrows_html = ''.join(
         f'<div class="row"><span>{html.escape(n)}</span><span class="v num">{usd(v)}</span></div>'
