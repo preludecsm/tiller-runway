@@ -1,11 +1,13 @@
-# A Tiller retirement/cut-order budgeting toolkit
+# Tiller Runway
+
+A retirement/cut-order budgeting toolkit built on Tiller.
 
 Five interactive HTML reports and a shareable PDF summary, all generated from a
 [Tiller](https://tiller.com) Google Sheet — built around a retirement-drawdown question, not a
 corporate-budget one: **if guaranteed income or the portfolio took a hit, what changes, and in
 what order?**
 
-**[Live demo →](https://your-github-username.github.io/tiller-demo/)** &nbsp;·&nbsp;
+**[Live demo →](https://your-github-username.github.io/tiller-runway/)** &nbsp;·&nbsp;
 **[Sample PDF →](docs/advisor_summary.pdf)** &nbsp;·&nbsp;
 **[Sample sheet →](https://docs.google.com/spreadsheets/your-sheet-id)** (view-only — see below)
 
@@ -54,8 +56,8 @@ editable cell on the Google Sheet, never hardcoded in the scripts — change a n
 ## Quickstart (using the synthetic demo data)
 
 ```bash
-git clone https://github.com/your-github-username/tiller-demo.git
-cd tiller-demo
+git clone https://github.com/your-github-username/tiller-runway.git
+cd tiller-runway
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 ```
 
