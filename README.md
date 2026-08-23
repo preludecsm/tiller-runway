@@ -6,12 +6,13 @@ and how long the whole portfolio can sustain what you spend today.
 
 ### [→ See it running, no install or account needed](https://preludecsm.github.io/tiller-runway/)
 
-The live demo, the [sample PDF](docs/advisor_summary.pdf), and the
+[The live demo](https://preludecsm.github.io/tiller-runway/), the
+[sample PDF](docs/advisor_summary.pdf), and the
 [sample Google Sheet](https://docs.google.com/spreadsheets/d/1-pdkeSihXshh_2BB8BLRRpAGoAKfII8XK6R6Us3xAaY/edit)
 all run on a made-up household ("Alex & Jordan") — every figure is fabricated, so there is nothing
 real to protect. See [`generate_demo_data.py`](scripts/generate_demo_data.py) for how it's built.
-
-![Clicking the Housing bucket on the Spending by Category page expands it into Mortgage, Property Tax, and Utilities](docs/img/spending-interactive.gif)
+Full-page screenshots of all five reports are below, so you can see exactly what you're getting
+into before copying a sheet or running any code.
 
 **Not financial, tax, or legal advice.** Every figure here is a model output based on assumptions
 you control — verify independently before making any real decision. Provided as-is, with no
@@ -24,8 +25,6 @@ warranty; see [`LICENSE`](LICENSE).
    exactly which pool — guaranteed income, routine portfolio draw, or episodic draw — is paying
    for each tier, in priority order.
 
-   ![Spending by tier](docs/img/tiers.png)
-
 2. **A downsize/sale-to-rent Monte Carlo model.** "If we sold the house today, could the invested
    proceeds sustainably cover rent?" — with a real mortgage-interest/property-tax tax-benefit
    calculator netted against the raw cost of owning, not just a rule-of-thumb comparison.
@@ -33,8 +32,6 @@ warranty; see [`LICENSE`](LICENSE).
 3. **A whole-portfolio retirement-sustainability model**, a different question from #2: given
    your *entire* net worth plus guaranteed income, what can you actually sustain spending,
    at what confidence level, over 20/25/30/50-year horizons?
-
-   ![Retirement sustainability](docs/img/sustainability.png)
 
 4. **A separate, aggregate-only PDF generator.** The interactive pages embed full per-category
    transaction detail for click-to-expand charts — great for you, not something to hand a third
@@ -44,6 +41,45 @@ warranty; see [`LICENSE`](LICENSE).
 
 Every assumption (tax rates, Monte Carlo trial count, inflation, LTCG rate, ...) lives in an
 editable cell on the Google Sheet, never hardcoded in the scripts — change a number, re-run, done.
+
+## Every page, in full
+
+Complete top-to-bottom screenshots of all five report pages, exactly as the
+[live demo](https://preludecsm.github.io/tiller-runway/) serves them. Each caption links to the
+live, clickable version.
+
+### [Financial Summary](https://preludecsm.github.io/tiller-runway/dashboard.html)
+Net worth and a three-year income/spending trend, with guaranteed income kept separate from the
+portfolio draw.
+
+![Full Financial Summary page](docs/img/full-dashboard.png)
+
+### [Spending by Category](https://preludecsm.github.io/tiller-runway/spending.html)
+Three years of spending grouped into buckets — on the live page each bucket clicks open to the
+categories inside it, and unusual categories are flagged computationally, not hand-picked.
+
+![Full Spending by Category page](docs/img/full-spending.png)
+
+### [Spending by Tier](https://preludecsm.github.io/tiller-runway/tiers.html)
+Every expense ranked by how easily it could be cut, and the funding waterfall showing which
+income pool pays for which tier, in priority order.
+
+![Full Spending by Tier page](docs/img/full-tiers.png)
+
+### [Downsize / Sale-to-Rent Model](https://preludecsm.github.io/tiller-runway/downsize.html)
+The net-proceeds waterfall, the sustainable-rent Monte Carlo, and the tax-benefit-of-owning
+calculation, with every assumption listed at the bottom — all editable on the sheet.
+
+![Full Downsize Model page](docs/img/full-downsize.png)
+
+### [Retirement Sustainability](https://preludecsm.github.io/tiller-runway/sustainability.html)
+What the whole portfolio plus guaranteed income can sustainably support, at what confidence,
+over 20/25/30/50-year horizons — with today's actual spending marked against the curve.
+
+![Full Retirement Sustainability page](docs/img/full-sustainability.png)
+
+And the [sample advisor PDF](docs/advisor_summary.pdf) — the same numbers rolled up with no
+individual transactions, safe to hand to a CPA or financial advisor.
 
 ## Two ways to try this yourself
 
