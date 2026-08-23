@@ -202,11 +202,10 @@ def compute():
     for a in obs: obs[a].sort()
     # Restrict to the accounts on the Accounts tab. That tab is Tiller's own registry and is the
     # only reliable filter: Balance History retains records for renamed and superseded accounts
-    # (three "Traditional Gold Card" variants, an all-caps "AMERIPRISE ONE ACCT" beside the real
+    # (a renamed card's old name, an all-caps duplicate of a brokerage account beside the real
     # one), and their Account Status still reads ACTIVE years after they stopped reporting.
     # Including them overstates net worth; excluding everything stale drops genuinely dormant but
-    # real holdings such as the Salaried Savings Plan. Summing this registry reproduces the
-    # Balances tab exactly.
+    # real holdings. Summing this registry reproduces Tiller's own Balances sheet exactly.
     acc = book.worksheet('Accounts').get_all_values()
     registry = set()
     for r in acc[1:]:
@@ -465,9 +464,10 @@ svg{{display:block;width:100%;height:auto}}
         <h1 class="serif">{html.escape(HOUSEHOLD_NAME)}</h1>
         <div class="meta">12 months to {cur['end'].strftime('%B %Y')}</div>
       </div>
-      <span class="tag">● Private</span>
+      <span class="tag">● Demo data</span>
     </div>
     <nav class="topnav">
+      <a href="index.html">Overview</a>
       <a href="dashboard.html" class="here">Financial Summary</a>
       <a href="spending.html">Spending by Category</a>
       <a href="tiers.html">Spending by Tier</a>
@@ -588,7 +588,7 @@ svg{{display:block;width:100%;height:auto}}
   </section>
 
   <footer><span>Generated from the Tiller sheet · {f['generated'].strftime('%d %B %Y, %H:%M')}</span>
-    <span>Private summary — not financial advice</span></footer>
+    <span>Synthetic data — not real, not financial advice</span></footer>
 </div>
 <div id="tt"><div class="t1"></div><div class="t2"></div></div>
 <script>

@@ -175,25 +175,24 @@ def build_html(f):
     def hdr(w): return f"{w['start'].strftime('%b ’%y')}–{w['end'].strftime('%b ’%y')}"
     headers = [hdr(w) for w in W]
 
-    def bucket_table(b):
-        rows = ''.join(
-            f'<tr class="catrow" tabindex="0" data-cat="{html.escape(c["name"], quote=True)}">'
+    def bucket_group(b, idx):
+        bid = f'b{idx}'
+        cat_rows = ''.join(
+            f'<tr class="catrow" hidden data-bucket="{bid}" tabindex="0" data-cat="{html.escape(c["name"], quote=True)}">'
             f'<td>{html.escape(c["name"])}'
             + (f' <span class="flagtag {c["flag"][0]}">{FLAG_LABEL[c["flag"][0]]}</span>' if c['flag'] else '')
             + f'</td><td class="num">{usd(c["vals"][0])}</td><td class="num">{usd(c["vals"][1])}</td>'
               f'<td class="num now">{usd(c["vals"][2])}</td></tr>'
-              f'<tr class="txrow" hidden><td colspan="4"><div class="txwrap"><div class="txlist"></div></div></td></tr>'
+              f'<tr class="txrow" hidden data-bucket="{bid}"><td colspan="4"><div class="txwrap"><div class="txlist"></div></div></td></tr>'
             for c in b['cats'])
         return f'''
-    <details class="bucket">
-      <summary><span class="bn">{html.escape(b['name'])}</span>
-        <span class="bv num">{headers[0]}: {k(b['vals'][0])} &nbsp;·&nbsp; {headers[1]}: {k(b['vals'][1])}
-          &nbsp;·&nbsp; {headers[2]}: <b>{k(b['vals'][2])}</b></span></summary>
-      <table class="ctable"><thead><tr><th>Category</th><th>{headers[0]}</th><th>{headers[1]}</th><th>{headers[2]}</th></tr></thead>
-      <tbody>{rows}</tbody></table>
-    </details>'''
+      <tr class="bucketrow" tabindex="0" data-toggle="{bid}">
+        <td>{html.escape(b['name'])}</td>
+        <td class="num">{k(b['vals'][0])}</td><td class="num">{k(b['vals'][1])}</td>
+        <td class="num now"><b>{k(b['vals'][2])}</b></td></tr>
+{cat_rows}'''
 
-    buckets_html = ''.join(bucket_table(b) for b in f['buckets'])
+    buckets_html = ''.join(bucket_group(b, i) for i, b in enumerate(f['buckets']))
 
     txns_json = json.dumps({
         cat: [[f'{d.month}/{d.day}/{d.year}', de, round(a, 2)] for d, de, a in lst]
@@ -244,23 +243,21 @@ header .meta{{color:var(--muted);font-size:.85rem;margin-top:6px}}
 .trend h2{{font-size:1.02rem;font-weight:600;margin:0 0 3px}}
 .trend .period{{color:var(--faint);font-size:.8rem;margin:5px 0 0;max-width:70ch;line-height:1.45}}
 .trend .period b{{color:var(--muted)}}
-.bucket{{background:var(--card);border:1px solid var(--edge);border-radius:12px;margin-top:12px;
- box-shadow:var(--shadow);overflow:hidden}}
-.bucket summary{{list-style:none;cursor:pointer;padding:14px 18px;display:flex;justify-content:space-between;
- align-items:baseline;gap:12px;flex-wrap:wrap}}
-.bucket summary::-webkit-details-marker{{display:none}}
-.bucket summary:before{{content:'\\25B8';display:inline-block;margin-right:8px;color:var(--faint);
- transition:transform .15s}}
-.bucket[open] summary:before{{transform:rotate(90deg)}}
-.bucket .bn{{font-weight:600;font-size:.95rem}}
-.bucket .bv{{font-size:.82rem;color:var(--muted)}}
-.ctable{{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;border-top:1px solid var(--edge)}}
-.ctable th{{font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);
- font-weight:600;text-align:right;padding:8px 18px 6px}}
-.ctable th:first-child{{text-align:left}}
-.ctable td{{padding:8px 18px;border-top:1px solid var(--edge);text-align:right;font-size:.88rem}}
-.ctable td:first-child{{text-align:left;color:var(--muted)}}
-.ctable td.now{{font-weight:600;color:var(--ink)}}
+.spendtable{{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;margin-top:18px}}
+.spendtable th{{font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);
+ font-weight:600;text-align:right;padding:0 18px 8px;position:sticky;top:0;background:var(--paper)}}
+.spendtable th:first-child{{text-align:left}}
+.spendtable td{{padding:8px 18px;border-top:1px solid var(--edge);text-align:right;font-size:.88rem}}
+.spendtable td:first-child{{text-align:left;color:var(--muted)}}
+.spendtable td.now{{font-weight:600;color:var(--ink)}}
+.bucketrow{{cursor:pointer;background:var(--card)}}
+.bucketrow td{{font-weight:600;color:var(--ink);font-size:.92rem;padding-top:12px;padding-bottom:12px}}
+.bucketrow:hover td{{background:var(--paper)}}
+.bucketrow:focus-visible{{outline:2px solid var(--gold);outline-offset:-2px}}
+.bucketrow td:first-child:before{{content:'\\25B8';display:inline-block;width:1em;margin-left:-1em;
+ color:var(--faint);transition:transform .15s}}
+.bucketrow.open td:first-child:before{{transform:rotate(90deg)}}
+.catrow td:first-child{{padding-left:38px}}
 .flagtag{{display:inline-block;font-size:.62rem;letter-spacing:.04em;text-transform:uppercase;
  font-weight:700;border-radius:5px;padding:1px 6px;margin-left:6px;vertical-align:middle}}
 .flagtag.new{{background:rgba(47,109,84,.15);color:var(--green)}}
@@ -302,9 +299,10 @@ footer{{color:var(--faint);font-size:.76rem;margin-top:28px;display:flex;justify
         <h1 class="serif">Spending by Category</h1>
         <div class="meta">12 months to {W[2]['end'].strftime('%B %Y')}</div>
       </div>
-      <span class="tag">● Private</span>
+      <span class="tag">● Demo data</span>
     </div>
     <nav class="topnav">
+      <a href="index.html">Overview</a>
       <a href="dashboard.html">Financial Summary</a>
       <a href="spending.html" class="here">Spending by Category</a>
       <a href="tiers.html">Spending by Tier</a>
@@ -324,11 +322,14 @@ footer{{color:var(--faint);font-size:.76rem;margin-top:28px;display:flex;justify
     <p class="period">Total lifestyle spending: {k(life[0])} → {k(life[1])} → {k(life[2])}
       &nbsp;({verdict(life[0], life[2])})</p>
     {oneoff_note}
-    {buckets_html}
+    <table class="spendtable">
+      <thead><tr><th>Bucket / Category</th><th>{headers[0]}</th><th>{headers[1]}</th><th>{headers[2]}</th></tr></thead>
+      <tbody>{buckets_html}</tbody>
+    </table>
   </section>
 
   <footer><span>Generated from the Tiller sheet · {f['generated'].strftime('%d %B %Y, %H:%M')}</span>
-    <span>Private summary — not financial advice</span></footer>
+    <span>Synthetic data — not real, not financial advice</span></footer>
 </div>
 <script>
 const TXNS={txns_json};
@@ -352,6 +353,19 @@ document.querySelectorAll('.catrow').forEach(row=>{{
  }};
  row.addEventListener('click',toggle);
  row.addEventListener('keydown',e=>{{if(e.key==='Enter'||e.key===' '){{e.preventDefault();toggle();}}}});
+}});
+document.querySelectorAll('.bucketrow').forEach(brow=>{{
+ const id=brow.dataset.toggle;
+ const rows=[...document.querySelectorAll(`tr[data-bucket="${{id}}"]`)];
+ const toggle=()=>{{
+  const opening=brow.classList.toggle('open');
+  rows.forEach(r=>{{
+   if(r.classList.contains('catrow')) r.hidden=!opening;
+   else r.hidden=!(opening && r.previousElementSibling.classList.contains('open'));
+  }});
+ }};
+ brow.addEventListener('click',toggle);
+ brow.addEventListener('keydown',e=>{{if(e.key==='Enter'||e.key===' '){{e.preventDefault();toggle();}}}});
 }});
 </script>
 </body>

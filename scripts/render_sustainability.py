@@ -411,9 +411,10 @@ footer{{color:var(--faint);font-size:.76rem;margin-top:28px;display:flex;justify
         <h1 class="serif">Retirement Sustainability</h1>
         <div class="meta">Whole portfolio — every number below is the actual net worth and spending, not a hypothetical</div>
       </div>
-      <span class="tag">● Private</span>
+      <span class="tag">● Demo data</span>
     </div>
     <nav class="topnav">
+      <a href="index.html">Overview</a>
       <a href="dashboard.html">Financial Summary</a>
       <a href="spending.html">Spending by Category</a>
       <a href="tiers.html">Spending by Tier</a>
@@ -480,7 +481,7 @@ footer{{color:var(--faint);font-size:.76rem;margin-top:28px;display:flex;justify
     </table>
     <p class="q" style="margin-top:12px">Not a CFP/CPA figure. Assumes the SAME 5%/12% real
       return/volatility as the Downsize Model page as a starting point — confirm against the
-      actual Ameriprise allocation when known, since the real portfolio may have a different risk
+      portfolio's actual allocation when known, since the real portfolio may have a different risk
       posture than a hypothetical newly-invested pot. Guaranteed income is assumed fully COLA'd
       (flat in real terms); if either pension is known not to have COLA, set "Guaranteed income
       real growth" negative on the sheet to model its real value eroding over time. Proceeds-only
@@ -489,7 +490,7 @@ footer{{color:var(--faint);font-size:.76rem;margin-top:28px;display:flex;justify
   </section>
 
   <footer><span>Generated from the Tiller sheet · {f['generated'].strftime('%d %B %Y, %H:%M')}</span>
-    <span>Private summary — not financial advice</span></footer>
+    <span>Synthetic data — not real, not financial advice</span></footer>
 </div>
 <script>
 const cs = getComputedStyle(document.documentElement);

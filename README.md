@@ -1,25 +1,17 @@
 # Tiller Runway
 
-A retirement/cut-order budgeting toolkit built on Tiller.
+Retirement budgeting built on top of a [Tiller](https://tiller.com) Google Sheet — which spending
+to cut first if income drops, whether selling the house and renting instead would actually work,
+and how long the whole portfolio can sustain what you spend today.
 
-Five interactive HTML reports and a shareable PDF summary, all generated from a
-[Tiller](https://tiller.com) Google Sheet — built around a retirement-drawdown question, not a
-corporate-budget one: **if guaranteed income or the portfolio took a hit, what changes, and in
-what order?**
+### [→ See it running, no install or account needed](https://preludecsm.github.io/tiller-runway/)
 
-**[Live demo →](https://your-github-username.github.io/tiller-runway/)** &nbsp;·&nbsp;
-**[Sample PDF →](docs/advisor_summary.pdf)** &nbsp;·&nbsp;
-**[Sample sheet →](https://docs.google.com/spreadsheets/your-sheet-id)** (view-only — see below)
+The live demo, the [sample PDF](docs/advisor_summary.pdf), and the
+[sample Google Sheet](https://docs.google.com/spreadsheets/d/1-pdkeSihXshh_2BB8BLRRpAGoAKfII8XK6R6Us3xAaY/edit)
+all run on a made-up household ("Alex & Jordan") — every figure is fabricated, so there is nothing
+real to protect. See [`generate_demo_data.py`](scripts/generate_demo_data.py) for how it's built.
 
-*(Replace the three links above with your actual GitHub Pages URL and sheet URL once those are
-live — see the note at the bottom of this file.)*
-
-All figures on the live demo, in the sample PDF, and on the sample sheet are fabricated data for
-a made-up household ("Alex & Jordan") — see
-[`scripts/generate_demo_data.py`](scripts/generate_demo_data.py). The sample sheet is shared
-**view-only** and isn't kept in sync with anything — it's a one-time snapshot, not a live feed.
-Use **File → Make a copy** to get your own editable copy to build from (see
-[`SETUP_GOOGLE_SHEETS.md`](SETUP_GOOGLE_SHEETS.md)).
+![Clicking the Housing bucket on the Spending by Category page expands it into Mortgage, Property Tax, and Utilities](docs/img/spending-interactive.gif)
 
 **Not financial, tax, or legal advice.** Every figure here is a model output based on assumptions
 you control — verify independently before making any real decision. Provided as-is, with no
@@ -53,10 +45,27 @@ warranty; see [`LICENSE`](LICENSE).
 Every assumption (tax rates, Monte Carlo trial count, inflation, LTCG rate, ...) lives in an
 editable cell on the Google Sheet, never hardcoded in the scripts — change a number, re-run, done.
 
+## Two ways to try this yourself
+
+**1. Look around — no data exposure.** The five report pages above are real and clickable, and
+the [sample sheet](https://docs.google.com/spreadsheets/d/1-pdkeSihXshh_2BB8BLRRpAGoAKfII8XK6R6Us3xAaY/edit)
+is open to view — **File → Make a copy** gets you your own private copy of the raw structure to
+poke at, with nothing to install and nothing of yours involved.
+
+**2. Run it yourself, against your own real Tiller sheet — limited, reversible exposure.** Clone
+this repo and follow [`SETUP_GOOGLE_SHEETS.md`](SETUP_GOOGLE_SHEETS.md) to create a free Google
+"service account" — a robot identity Google lets you create so a program (not a person) can read
+one specific sheet, the same way you'd share a sheet with a coworker's email. What that exposes:
+that one sheet, nothing else in your Google account. The one thing to handle carefully is the
+downloadable key file Google gives you for it — unlike a password, whoever holds that file can use
+it with no login prompt, so the habit that keeps it safe is simply *never let it leave your own
+computer* (don't email it, don't put it in a synced folder). If it's ever lost, one click in the
+Google Cloud console revokes it instantly. See **Security** below for the full explanation.
+
 ## Quickstart (using the synthetic demo data)
 
 ```bash
-git clone https://github.com/your-github-username/tiller-runway.git
+git clone https://github.com/preludecsm/tiller-runway.git
 cd tiller-runway
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 ```
@@ -94,7 +103,8 @@ carefully — the sharing itself only grants access to that one spreadsheet, not
 Google account. The actual risk concentrates in the downloaded JSON key file, which is a
 long-lived credential, not a login — anyone holding it can act as the service account until it's
 revoked. This repo also connects by spreadsheet ID rather than searching Drive by name, so the
-credential only ever requests the narrow `spreadsheets` scope, never `drive`.
+credential only ever requests the narrow `spreadsheets` scope, never `drive` — which is also why
+the live demo's own sample-sheet sharing had to be set by hand rather than by the scripts here.
 
 Full explanation, plus the two independent ways to revoke access if anything goes wrong, in
 **"Understanding the security model"** in [`SETUP_GOOGLE_SHEETS.md`](SETUP_GOOGLE_SHEETS.md#understanding-the-security-model)
@@ -109,7 +119,7 @@ household's setup and aren't part of this repo.
 ## Publishing your own copy
 
 `docs/` is a committed, ready-to-serve copy of the demo output (the same six reports, plus the
-sample PDF) — turn on **Settings → Pages → Deploy from branch → main /docs** on your fork and
+sample PDF) — turn on **Settings → Pages → Deploy from branch → master /docs** on your fork and
 it's live with no server. `run_demo.sh` writes to `reports/` (gitignored, scratch output); copy
 whatever you want published into `docs/` the same way this repo's own copy was made.
 

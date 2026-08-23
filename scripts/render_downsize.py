@@ -437,9 +437,10 @@ footer{{color:var(--faint);font-size:.76rem;margin-top:28px;display:flex;justify
         <h1 class="serif">Downsize / Sale-to-Rent Model</h1>
         <div class="meta">Hypothetical — all figures are estimates, editable on the "Downsize Model" sheet tab</div>
       </div>
-      <span class="tag">● Private</span>
+      <span class="tag">● Demo data</span>
     </div>
     <nav class="topnav">
+      <a href="index.html">Overview</a>
       <a href="dashboard.html">Financial Summary</a>
       <a href="spending.html">Spending by Category</a>
       <a href="tiers.html">Spending by Tier</a>
@@ -550,7 +551,7 @@ footer{{color:var(--faint);font-size:.76rem;margin-top:28px;display:flex;justify
   </section>
 
   <footer><span>Generated from the Tiller sheet · {f['generated'].strftime('%d %B %Y, %H:%M')}</span>
-    <span>Private summary — not financial advice</span></footer>
+    <span>Synthetic data — not real, not financial advice</span></footer>
 </div>
 <div id="tt"><div class="t1"></div><div class="t2"></div></div>
 <script>
