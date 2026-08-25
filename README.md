@@ -121,12 +121,24 @@ open reports/dashboard.html                       # or reports/advisor_summary.p
 
 ## Using your own real data
 
-**Heads up: this doesn't just plug into a stock Tiller sheet.** Some of what's read here is
-native to Tiller (Transactions, the base Categories columns, Accounts, Balance History); some of
-it — the `Bucket`/`Tier` columns on Categories, and the entire `Downsize Model` and `Portfolio
-Model` tabs — is custom structure the original household built by hand, with no Tiller feature
-behind it. `SETUP_GOOGLE_SHEETS.md` has the exact column/tab specs to add to your own sheet, plus
-which scripts work against a stock sheet as-is versus which need the custom pieces first.
+**Where the reports actually live:** not in your sheet. The scripts *read* your sheet (they never
+write to it), do the math on your computer, and save ordinary `.html` files into the `reports/`
+folder. You open one in your browser like any saved web page. Nothing is uploaded anywhere; the
+live demo is just those same files parked on a free host so people can see them without running
+anything.
+
+**Start with the three reports that need no custom tabs.** Financial Summary, Spending by
+Category, and Spending by Tier run against the standard Tiller tabs you already have — the only
+sheet change is adding two columns, `Bucket` and `Tier`, to your existing Categories tab, which is
+just typing values into cells.
+
+The other two — Downsize Model and Retirement Sustainability — need a custom tab each
+(`Downsize Model`, `Portfolio Model`), which a stock Tiller sheet doesn't have. **You don't have to
+add them to get started:** if a tab is missing, `run_demo.sh` skips that report with a note and
+still builds the rest. Add them later, or never. (The advisor PDF draws on both models, so it's
+built only once both tabs exist.)
+
+`SETUP_GOOGLE_SHEETS.md` has the exact column/tab specs for all of it.
 
 Once those exist: copy `scripts/config.py` to `scripts/config_local.py` (gitignored) and set
 `HOUSEHOLD_NAME`, `SHEET_ID`, your real guaranteed-income category names, and your own

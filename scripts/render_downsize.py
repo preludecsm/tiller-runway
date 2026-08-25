@@ -85,7 +85,15 @@ def connect():
     return gspread.authorize(creds).open_by_key(SHEET_ID)
 
 def read_assumptions(book):
-    vals = book.worksheet('Downsize Model').get_all_values()
+    # This page is optional: it needs the custom "Downsize Model" tab, which a stock Tiller sheet
+    # doesn't have. Exit 3 (not a traceback) so run_demo.sh can skip it with a readable message
+    # rather than aborting the whole run -- the three reports needing no custom tabs still run.
+    try:
+        vals = book.worksheet('Downsize Model').get_all_values()
+    except gspread.WorksheetNotFound:
+        print('No "Downsize Model" tab on this sheet — skipping the Downsize report.\n'
+              '  This page is optional. To add it, see "Downsize Model" in SETUP_GOOGLE_SHEETS.md.')
+        sys.exit(3)
     a = {}
     for r in vals:
         if len(r) < 2 or not r[0].strip() or not r[1].strip(): continue

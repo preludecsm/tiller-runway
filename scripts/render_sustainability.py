@@ -86,7 +86,14 @@ def connect():
     return gspread.authorize(creds).open_by_key(SHEET_ID)
 
 def read_assumptions(book):
-    vals = book.worksheet('Portfolio Model').get_all_values()
+    # Optional page -- see the same note in render_downsize.py. Exit 3 means "custom tab absent",
+    # which run_demo.sh treats as a skip rather than a failure.
+    try:
+        vals = book.worksheet('Portfolio Model').get_all_values()
+    except gspread.WorksheetNotFound:
+        print('No "Portfolio Model" tab on this sheet — skipping the Retirement Sustainability report.\n'
+              '  This page is optional. To add it, see "Portfolio Model" in SETUP_GOOGLE_SHEETS.md.')
+        sys.exit(3)
     a = {}
     for r in vals:
         if len(r) < 2 or not r[0].strip() or not r[1].strip(): continue
