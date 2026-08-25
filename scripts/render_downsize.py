@@ -101,8 +101,49 @@ def read_assumptions(book):
         except ValueError: continue
     return a
 
+# ── Optional-page availability ────────────────────────────────────────────────────────────────
+# The Downsize and Retirement Sustainability pages each need a custom tab that a stock Tiller
+# sheet doesn't have, so a partial run is normal and expected. Every page therefore checks which
+# of those tabs exist and (a) renders nav entries for missing pages as plain text rather than
+# dead links, and (b) says so explicitly, so a partial set of reports can't be mistaken for the
+# whole thing. Duplicated in each render_*.py on purpose -- see README on why these don't share.
+OPTIONAL_PAGES = (('Downsize Model', 'downsize.html', 'Downsize Model'),
+                  ('Portfolio Model', 'sustainability.html', 'Retirement Sustainability'))
+
+def tab_titles(book):
+    return {w.title for w in book.worksheets()}
+
+def nav_html(here, titles):
+    items = [('index.html', 'Overview'), ('dashboard.html', 'Financial Summary'),
+             ('spending.html', 'Spending by Category'), ('tiers.html', 'Spending by Tier'),
+             ('downsize.html', 'Downsize Model'),
+             ('sustainability.html', 'Retirement Sustainability')]
+    need = {href: tab for tab, href, _ in OPTIONAL_PAGES}
+    out = []
+    for href, label in items:
+        tab = need.get(href)
+        if tab and tab not in titles:
+            out.append(f'<span class="na" title="Not generated \u2014 add the &quot;{tab}&quot; tab '
+                       f'to your sheet to enable this report">{label}</span>')
+        elif href == here:
+            out.append(f'<a href="{href}" class="here">{label}</a>')
+        else:
+            out.append(f'<a href="{href}">{label}</a>')
+    return '\n      '.join(out)
+
+def missing_note(titles):
+    missing = [(tab, label) for tab, _, label in OPTIONAL_PAGES if tab not in titles]
+    if not missing:
+        return ''
+    which = ' and '.join(f'<b>{label}</b> (needs a "{tab}" tab)' for tab, label in missing)
+    return ('<div class="partial">This is a partial set of reports: ' + which +
+            ' could not be generated, and the advisor PDF is skipped whenever either model is '
+            'missing. Everything shown here is complete and correct on its own \u2014 see '
+            'SETUP_GOOGLE_SHEETS.md to add the missing tab.</div>')
+
 def compute():
     book = connect()
+    titles = tab_titles(book)
     a = read_assumptions(book)
 
     home_value = a['Current market value']
@@ -267,7 +308,7 @@ def compute():
 
     headline = {h: {p: withdrawal_at(h, p) for p in (0.75, 0.90, 0.95)} for h in HORIZONS}
 
-    return dict(a=a, home_value=home_value, selling_costs=selling_costs, basis=basis,
+    return dict(titles=titles, a=a, home_value=home_value, selling_costs=selling_costs, basis=basis,
                 realized_gain=realized_gain, taxable_gain=taxable_gain, tax=tax,
                 mortgage_assumed=mortgage_assumed, mortgage_live=mortgage_live,
                 net_proceeds=net_proceeds, housing_cost=housing_cost,
@@ -287,6 +328,7 @@ def compute():
                 generated=datetime.now())
 
 def build_html(f):
+    nav = nav_html('downsize.html', f['titles']); partial_note = missing_note(f['titles'])
     a = f['a']; net_proceeds = f['net_proceeds']; headline = f['headline']
     ph = f['primary_horizon']
     mortgage_note = ''
@@ -427,6 +469,12 @@ svg{{display:block;width:100%;height:auto}}
 .assump td:last-child{{text-align:right;font-weight:600}}
 footer{{color:var(--faint);font-size:.76rem;margin-top:28px;display:flex;justify-content:space-between;
  flex-wrap:wrap;gap:8px}}
+.na{{color:var(--faint);font-size:.78rem;border:1px dashed var(--edge);border-radius:999px;
+ padding:5px 13px;opacity:.75;cursor:help}}
+.partial{{background:var(--card);border:1px solid var(--edge);border-left:3px solid var(--gold);
+ border-radius:12px;padding:14px 18px;margin-top:20px;color:var(--muted);font-size:.86rem;
+ line-height:1.55;box-shadow:var(--shadow)}}
+.partial b{{color:var(--ink)}}
 .tag{{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--edge);border-radius:999px;
  padding:3px 10px;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}}
 #tt{{position:fixed;pointer-events:none;background:var(--hero);color:#eef3ef;border-radius:8px;padding:7px 10px;
@@ -448,12 +496,7 @@ footer{{color:var(--faint);font-size:.76rem;margin-top:28px;display:flex;justify
       <span class="tag">● Demo data</span>
     </div>
     <nav class="topnav">
-      <a href="index.html">Overview</a>
-      <a href="dashboard.html">Financial Summary</a>
-      <a href="spending.html">Spending by Category</a>
-      <a href="tiers.html">Spending by Tier</a>
-      <a href="downsize.html" class="here">Downsize Model</a>
-      <a href="sustainability.html">Retirement Sustainability</a>
+      {nav}
     </nav>
   </header>
   <div class="rule"></div>
@@ -558,6 +601,7 @@ footer{{color:var(--faint);font-size:.76rem;margin-top:28px;display:flex;justify
       instead, which is a real trade-off worth raising with the CFP separately from this model.</p>
   </section>
 
+  {partial_note}
   <footer><span>Generated from the Tiller sheet · {f['generated'].strftime('%d %B %Y, %H:%M')}</span>
     <span>Synthetic data — not real, not financial advice</span></footer>
 </div>
