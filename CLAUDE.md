@@ -21,7 +21,10 @@ generator or the demo sheet. If a figure cannot be traced to one of those, it do
 demo sheet **and nothing else**, ideally through its own service account, not a second key on
 the one the private repo uses. A key here once opened a real household's sheet too; that was
 removed (verified 2026-10-20). The rule: **if this key can open the real household's sheet, it's
-the wrong key.** `*.json` is gitignored, which is a backstop and not a permission.
+the wrong key.** `*.json` is gitignored, which is a backstop and not a permission. The right key
+belongs to `runway-demo@tiller-runway-demo.iam.gserviceaccount.com` (GCP project
+`tiller-runway-demo`, created 2026-10-20 for this repo alone, Sheets API only), shared
+as Editor on the demo sheet only. A key for any other account is wrong.
 
 **3. Reaching into the private system.** A separate, private repo runs the real household this
 demo is modelled on. On this host it is adjacent on disk at `/opt/tiller/repo`. **Do not read it,
