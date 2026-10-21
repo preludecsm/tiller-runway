@@ -121,7 +121,7 @@ svg{display:block;width:100%;height:auto}
       <div>
         <div class="eyebrow">Household Financial Summary</div>
         <h1 class="serif">Alex &amp; Jordan</h1>
-        <div class="meta">12 months to July 2026</div>
+        <div class="meta">12 months to September 2026</div>
       </div>
       <span class="tag">● Demo data</span>
     </div>
@@ -150,9 +150,9 @@ svg{display:block;width:100%;height:auto}
   <section class="trend">
     <h2 class="serif">Overview — the direction of travel over three years</h2>
     <p class="period">Each column is a complete 12 months, and they roll forward as time passes —
-      the current one ends <b>31 July 2026</b>. They are not calendar years, so that
+      the current one ends <b>30 September 2026</b>. They are not calendar years, so that
       all three are full periods.</p>
-    <p class="lead">Our spending has risen, our guaranteed income has gone from $79k to $98k, and our standing monthly draw has held at $9,000. Together that has widened the shortfall by <b>$16,373 a year</b>.</p>
+    <p class="lead">Our spending has risen, our guaranteed income has gone from $80k to $82k, and our standing monthly draw has held at $9,000. Together that has widened the shortfall by <b>$17,681 a year</b>.</p>
     <div id="trendchart"></div>
     <div class="chartlegend">
       <span><i style="background:var(--green)"></i>Guaranteed income</span>
@@ -160,23 +160,23 @@ svg{display:block;width:100%;height:auto}
       <span><i style="background:var(--clay)"></i>Lifestyle spending</span>
     </div>
     <table class="ttable">
-      <thead><tr><th></th><th>Aug ’23–Jul ’24</th><th>Aug ’24–Jul ’25</th><th>Aug ’25–Jul ’26</th><th class="verdict"></th></tr></thead>
+      <thead><tr><th></th><th>Oct ’23–Sep ’24</th><th>Oct ’24–Sep ’25</th><th>Oct ’25–Sep ’26</th><th class="verdict"></th></tr></thead>
       <tbody>
-        <tr><td>What our life costs</td><td>$115k</td><td>$135k</td><td class="now">$150k</td>
-            <td class="verdict"><span class="flat">Up 31%</span> — mostly home improvements</td></tr>
-        <tr><td>Income we can count on</td><td>$79k</td><td>$96k</td><td class="now">$98k</td>
-            <td class="verdict"><span class="good">Up 24%</span> — Jordan Social Security started</td></tr>
+        <tr><td>What our life costs</td><td>$115k</td><td>$132k</td><td class="now">$134k</td>
+            <td class="verdict"><span class="flat">Up 17%</span> — mostly home improvements</td></tr>
+        <tr><td>Income we can count on</td><td>$80k</td><td>$98k</td><td class="now">$82k</td>
+            <td class="verdict"><span class="flat">Flat</span></td></tr>
         <tr><td>Monthly draw from savings</td><td>$9k</td><td>$9k</td><td class="now">$9k</td>
             <td class="verdict"><span class="flat">Flat</span></td></tr>
-        <tr><td>Shortfall the portfolio covers</td><td>$36k</td><td>$38k</td><td class="now">$52k</td>
-            <td class="verdict"><span class="flat">Up 46%</span> — $16,373 better</td></tr>
+        <tr><td>Shortfall the portfolio covers</td><td>$34k</td><td>$33k</td><td class="now">$52k</td>
+            <td class="verdict"><span class="flat">Up 52%</span> — $17,681 better</td></tr>
       </tbody>
     </table>
   </section>
 
   <div class="layers-head">
     <h2 class="serif">The last 12 months in detail</h2>
-    <div class="sub">August 2025 – July 2026 · the three sections
+    <div class="sub">October 2025 – September 2026 · the three sections
       below all cover this single 12-month period, not the three-year view above</div>
   </div>
 
@@ -184,19 +184,19 @@ svg{display:block;width:100%;height:auto}
     <section class="layer" style="--accent:var(--green)">
       <div class="lhead"><div>
           <div class="ltitle serif">1 · Household — what our life costs</div>
-          <div class="lper">12 months to Jul 2026</div></div>
-        <div class="lnum num">$150,274</div></div>
-      <div class="lnote">Our guaranteed income covers about 65% of what we spend.
+          <div class="lper">12 months to Sep 2026</div></div>
+        <div class="lnum num">$133,780</div></div>
+      <div class="lnote">Our guaranteed income covers about 61% of what we spend.
         The rest is funded by our routine $9,000/month portfolio draw. Taxes are
         excluded here — they belong to layer 2.</div>
-      <div class="lsub">Includes ~<b>$9,627/yr</b> of mortgage principal, which builds home equity rather than being consumed.</div>
+      <div class="lsub">Includes ~<b>$7,898/yr</b> of mortgage principal, which builds home equity rather than being consumed.</div>
       <div class="grid2">
         <div class="mini"><h3>Our guaranteed income</h3><div id="incrows"></div></div>
         <div class="mini"><h3>What we spend</h3><div class="lrows" id="exprows"></div></div>
       </div>
-      <div class="lsub">Shown above is gross. An estimated <b>~$18,356/yr</b> of that is owed in tax on Social Security and pension income specifically (not withheld or split out in the feed) — roughly <b>~$79,992/yr</b> is actually available. Rate (13.5% federal / 9.3% CA) is an illustrative example marginal bracket, not a fixed feature of SS/pension — it moves with total income (especially realized capital gains) and should be re-derived from each new return, not trusted indefinitely. Not a CPA figure — see config.py.</div>
+      <div class="lsub">Shown above is gross. An estimated <b>~$15,304/yr</b> of that is owed in tax on Social Security and pension income specifically (not withheld or split out in the feed) — roughly <b>~$66,680/yr</b> is actually available. Rate (13.5% federal / 9.3% CA) is an illustrative example marginal bracket, not a fixed feature of SS/pension — it moves with total income (especially realized capital gains) and should be re-derived from each new return, not trusted indefinitely. Not a CPA figure — see config.py.</div>
       <div class="gapline"><span>Gap funded by our portfolio</span>
-        <span class="neg num">−$51,926 · −$4,327/mo</span></div>
+        <span class="neg num">−$51,796 · −$4,316/mo</span></div>
     </section>
 
     <section class="layer" style="--accent:var(--gold)">
@@ -224,8 +224,8 @@ svg{display:block;width:100%;height:auto}
     <section class="layer" style="--accent:var(--slate)">
       <div class="lhead"><div>
           <div class="ltitle serif">3 · Portfolio — the engine</div>
-          <div class="lper">12 months to Jul 2026</div></div>
-        <div class="lnum num">$125,075 drawn</div></div>
+          <div class="lper">12 months to Sep 2026</div></div>
+        <div class="lnum num">$107,075 drawn</div></div>
       <div class="lnote">Our draw splits by purpose. Investment returns over the period replaced what we
         withdrew, which is why our net worth is roughly unchanged.</div>
       <div class="lrows" id="drawrows"></div>
@@ -247,7 +247,7 @@ svg{display:block;width:100%;height:auto}
   </section>
 
   
-  <footer><span>Generated from the Tiller sheet · 24 August 2026, 19:46</span>
+  <footer><span>Generated from the Tiller sheet · 20 October 2026, 21:35</span>
     <span>Synthetic data — not real, not financial advice</span></footer>
 </div>
 <div id="tt"><div class="t1"></div><div class="t2"></div></div>
@@ -300,7 +300,7 @@ const nw=[["Jul ’25",1813277],["Aug ’25",1821999],["Sep ’25",1865301],["Oc
   showTip(r.left+p[0]/W*r.width,r.top+p[1]/H*r.height,fmt(nw[i][1]),nw[i][0]);});
  svg.addEventListener('pointerleave',()=>{cross.setAttribute('opacity','0');mk.setAttribute('opacity','0');hideTip();});
 })();
-const trend=[["Aug ’23–Jul ’24",79092,123202,114646],["Aug ’24–Jul ’25",96405,116713,134770],["Aug ’25–Jul ’26",98348,125075,150274]];
+const trend=[["Oct ’23–Sep ’24",80488,123202,114602],["Oct ’24–Sep ’25",98100,116713,131595],["Oct ’25–Sep ’26",81984,107075,133780]];
 (function(){
  const W=980,H=220,P={l:44,r:8,t:10,b:28};
  const cs=getComputedStyle(document.documentElement);
@@ -326,11 +326,11 @@ const trend=[["Aug ’23–Jul ’24",79092,123202,114646],["Aug ’24–Jul ’
   `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Three-year income, spending and draw">${g}</svg>`;
  bindTips('.tbar');
 })();
-const inc=[["Alex Pension",32459],["Alex Social Security",23375],["Jordan Pension",22839],["Jordan Social Security",19202],["Other Income",473]];
+const inc=[["Alex Pension",27085],["Alex Social Security",19484],["Jordan Pension",19033],["Jordan Social Security",15987],["Other Income",395]];
 document.getElementById('incrows').innerHTML=
  inc.map(d=>`<div class="row"><span>${d[0]}</span><span class="v num">${fmt(d[1])}</span></div>`).join('')
- +`<div class="row tot"><span>Total guaranteed</span><span class="v num">$98,348</span></div>`;
-const ex=[["Housing",55431],["Home Projects &amp; Upkeep",32569],["Food &amp; Dining",17041],["Travel",15601],["Shopping",12359],["Giving",5282],["Healthcare",4897],["Transportation",3717],["Subscriptions &amp; Media",1651]];
+ +`<div class="row tot"><span>Total guaranteed</span><span class="v num">$81,984</span></div>`;
+const ex=[["Housing",46268],["Home Projects &amp; Upkeep",32088],["Travel",15601],["Food &amp; Dining",14154],["Shopping",11273],["Giving",4521],["Healthcare",4003],["Transportation",3067],["Subscriptions &amp; Media",1373]];
 (function(){const max=Math.max(...ex.map(d=>d[1]));
  document.getElementById('exprows').innerHTML=ex.map(d=>`
   <div class="lrow" tabindex="0" data-a="${d[0]}" data-b="${fmt(d[1])}">
@@ -338,14 +338,14 @@ const ex=[["Housing",55431],["Home Projects &amp; Upkeep",32569],["Food &amp; Di
    <span class="track"><span class="fill" style="width:0;background:var(--green)"></span></span></div>`).join('');
  requestAnimationFrame(()=>document.querySelectorAll('#exprows .fill').forEach((f,i)=>f.style.width=(ex[i][1]/max*100)+'%'));
  bindTips('#exprows .lrow');})();
-const dr=[["Routine draw — $9,000/mo, annual total",108000,"var(--slate)"],["Episodic draw — usually tax",17075,"var(--gold)"]];
+const dr=[["Routine draw — $9,000/mo, annual total",90000,"var(--slate)"],["Episodic draw — usually tax",17075,"var(--gold)"]];
 (function(){const max=dr.reduce((a,b)=>a+b[1],0)||1;
  document.getElementById('drawrows').innerHTML=dr.map(d=>`
   <div class="lrow" tabindex="0" data-a="${d[0]}" data-b="${fmt(d[1])}">
    <span class="rl">${d[0]}</span><span class="rv num">${fmt(d[1])}</span>
    <span class="track"><span class="fill" style="width:0;background:${d[2]}"></span></span></div>`).join('')
   +`<div class="gapline" style="border-top:none;padding-top:4px;margin-top:2px"><span>Total drawn</span>
-    <span class="num">$125,075</span></div>`;
+    <span class="num">$107,075</span></div>`;
  requestAnimationFrame(()=>document.querySelectorAll('#drawrows .fill').forEach((f,i)=>f.style.width=(dr[i][1]/max*100)+'%'));
  bindTips('#drawrows .lrow');})();
 </script>
